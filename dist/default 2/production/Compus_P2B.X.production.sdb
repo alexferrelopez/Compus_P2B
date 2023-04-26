@@ -1,0 +1,428 @@
+[p GLOBOPT AUTOSTATIC IEEE_FLT IEEE_DBL LFSROK EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F4321 ]
+[d frameptr 4065 ]
+"4 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\fleq.c
+[v ___fleq __fleq `(b  1 e 0 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\float.c
+[v ___ftpack __ftpack `(f  1 e 4 0 ]
+"86 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 4 0 ]
+"54 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 4 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 4 0 ]
+"19 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\ftsub.c
+[v ___ftsub __ftsub `(f  1 e 4 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"245
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"11 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"91 C:\Program Files\Microchip\xc8\v2.41\pic\sources\c99\common\Umul64.c
+[v ___omul __omul `(uo  1 e 8 0 ]
+"19 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\main.c
+[v _RSI_High RSI_High `IIH(v  1 e 1 0 ]
+"23
+[v _config_interrupts config_interrupts `(v  1 e 1 0 ]
+"29
+[v _config_ports config_ports `(v  1 e 1 0 ]
+"39
+[v _main main `(v  1 e 1 0 ]
+"69 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _LcInit LcInit `(v  1 e 1 0 ]
+"114
+[v _LcClear LcClear `(v  1 e 1 0 ]
+"135
+[v _LcGotoXY LcGotoXY `(v  1 e 1 0 ]
+"162
+[v _LcPutChar LcPutChar `(v  1 e 1 0 ]
+"196
+[v _LcPutString LcPutString `(v  1 e 1 0 ]
+"211
+[v _Espera Espera `(v  1 e 1 0 ]
+"216
+[v _CantaPartAlta CantaPartAlta `(v  1 e 1 0 ]
+"223
+[v _CantaPartBaixa CantaPartBaixa `(v  1 e 1 0 ]
+"230
+[v _CantaIR CantaIR `(v  1 e 1 0 ]
+"246
+[v _CantaData CantaData `(v  1 e 1 0 ]
+"262
+[v _WaitForBusy WaitForBusy `(v  1 e 1 0 ]
+"280
+[v _EscriuPrimeraOrdre EscriuPrimeraOrdre `(v  1 e 1 0 ]
+"18 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _RSI_Timer0 RSI_Timer0 `(v  1 e 1 0 ]
+"28
+[v _TI_Init TI_Init `(v  1 e 1 0 ]
+"39
+[v _TI_NewTimer TI_NewTimer `(uc  1 e 1 0 ]
+"49
+[v _TI_ResetTics TI_ResetTics `(v  1 e 1 0 ]
+"54
+[v _TI_GetTics TI_GetTics `(ul  1 e 4 0 ]
+"59
+[v _TI_CloseTimer TI_CloseTimer `(v  1 e 1 0 ]
+[s S312 . 1 `uc 1 RC0 1 0 :1:0 
+`uc 1 RC1 1 0 :1:1 
+`uc 1 RC2 1 0 :1:2 
+`uc 1 RC3 1 0 :1:3 
+`uc 1 RC4 1 0 :1:4 
+`uc 1 RC5 1 0 :1:5 
+`uc 1 RC6 1 0 :1:6 
+`uc 1 RC7 1 0 :1:7 
+]
+"508 C:\Program Files\Microchip\xc8\v2.41\pic\include\proc\pic18f4321.h
+[s S460 . 1 `uc 1 T1OSO 1 0 :1:0 
+`uc 1 T1OSI 1 0 :1:1 
+`uc 1 CCP1 1 0 :1:2 
+`uc 1 SCK 1 0 :1:3 
+`uc 1 SDI 1 0 :1:4 
+`uc 1 SDO 1 0 :1:5 
+`uc 1 TX 1 0 :1:6 
+`uc 1 RX 1 0 :1:7 
+]
+[s S469 . 1 `uc 1 T13CKI 1 0 :1:0 
+`uc 1 CCP2 1 0 :1:1 
+`uc 1 P1A 1 0 :1:2 
+`uc 1 SCL 1 0 :1:3 
+`uc 1 SDA 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 CK 1 0 :1:6 
+`uc 1 DT 1 0 :1:7 
+]
+[s S478 . 1 `uc 1 T1CKI 1 0 :1:0 
+]
+[s S480 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 PA2 1 0 :1:1 
+`uc 1 PA1 1 0 :1:2 
+]
+[u S484 . 1 `S312 1 . 1 0 `S460 1 . 1 0 `S469 1 . 1 0 `S478 1 . 1 0 `S480 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES484  1 e 1 @3970 ]
+[s S411 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 LATA4 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"1015
+[s S420 . 1 `uc 1 LA0 1 0 :1:0 
+`uc 1 LA1 1 0 :1:1 
+`uc 1 LA2 1 0 :1:2 
+`uc 1 LA3 1 0 :1:3 
+`uc 1 LA4 1 0 :1:4 
+`uc 1 LA5 1 0 :1:5 
+`uc 1 LA6 1 0 :1:6 
+`uc 1 LA7 1 0 :1:7 
+]
+[u S429 . 1 `S411 1 . 1 0 `S420 1 . 1 0 ]
+[v _LATAbits LATAbits `VES429  1 e 1 @3977 ]
+[s S371 . 1 `uc 1 LATC0 1 0 :1:0 
+`uc 1 LATC1 1 0 :1:1 
+`uc 1 LATC2 1 0 :1:2 
+`uc 1 LATC3 1 0 :1:3 
+`uc 1 LATC4 1 0 :1:4 
+`uc 1 LATC5 1 0 :1:5 
+`uc 1 LATC6 1 0 :1:6 
+`uc 1 LATC7 1 0 :1:7 
+]
+"1239
+[s S380 . 1 `uc 1 LC0 1 0 :1:0 
+`uc 1 LC1 1 0 :1:1 
+`uc 1 LC2 1 0 :1:2 
+`uc 1 LC3 1 0 :1:3 
+`uc 1 LC4 1 0 :1:4 
+`uc 1 LC5 1 0 :1:5 
+`uc 1 LC6 1 0 :1:6 
+`uc 1 LC7 1 0 :1:7 
+]
+[u S389 . 1 `S371 1 . 1 0 `S380 1 . 1 0 ]
+[v _LATCbits LATCbits `VES389  1 e 1 @3979 ]
+[s S263 . 1 `uc 1 TRISA0 1 0 :1:0 
+`uc 1 TRISA1 1 0 :1:1 
+`uc 1 TRISA2 1 0 :1:2 
+`uc 1 TRISA3 1 0 :1:3 
+`uc 1 TRISA4 1 0 :1:4 
+`uc 1 TRISA5 1 0 :1:5 
+`uc 1 TRISA6 1 0 :1:6 
+`uc 1 TRISA7 1 0 :1:7 
+]
+"1520
+[s S272 . 1 `uc 1 RA0 1 0 :1:0 
+`uc 1 RA1 1 0 :1:1 
+`uc 1 RA2 1 0 :1:2 
+`uc 1 RA3 1 0 :1:3 
+`uc 1 RA4 1 0 :1:4 
+`uc 1 RA5 1 0 :1:5 
+`uc 1 RA6 1 0 :1:6 
+`uc 1 RA7 1 0 :1:7 
+]
+[u S281 . 1 `S263 1 . 1 0 `S272 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES281  1 e 1 @3986 ]
+[s S303 . 1 `uc 1 TRISC0 1 0 :1:0 
+`uc 1 TRISC1 1 0 :1:1 
+`uc 1 TRISC2 1 0 :1:2 
+`uc 1 TRISC3 1 0 :1:3 
+`uc 1 TRISC4 1 0 :1:4 
+`uc 1 TRISC5 1 0 :1:5 
+`uc 1 TRISC6 1 0 :1:6 
+`uc 1 TRISC7 1 0 :1:7 
+]
+"1964
+[u S321 . 1 `S303 1 . 1 0 `S312 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES321  1 e 1 @3988 ]
+[s S77 . 1 `uc 1 NOT_BOR 1 0 :1:0 
+]
+"5724
+[s S79 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 NOT_POR 1 0 :1:1 
+]
+[s S82 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 NOT_PD 1 0 :1:2 
+]
+[s S85 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 NOT_TO 1 0 :1:3 
+]
+[s S88 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 NOT_RI 1 0 :1:4 
+]
+[s S91 . 1 `uc 1 nBOR 1 0 :1:0 
+`uc 1 nPOR 1 0 :1:1 
+`uc 1 nPD 1 0 :1:2 
+`uc 1 nTO 1 0 :1:3 
+`uc 1 nRI 1 0 :1:4 
+`uc 1 . 1 0 :2:5 
+`uc 1 IPEN 1 0 :1:7 
+]
+[s S99 . 1 `uc 1 BOR 1 0 :1:0 
+`uc 1 POR 1 0 :1:1 
+`uc 1 PD 1 0 :1:2 
+`uc 1 TO 1 0 :1:3 
+`uc 1 RI 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 SBOREN 1 0 :1:6 
+]
+[u S107 . 1 `S77 1 . 1 0 `S79 1 . 1 0 `S82 1 . 1 0 `S85 1 . 1 0 `S88 1 . 1 0 `S91 1 . 1 0 `S99 1 . 1 0 ]
+[v _RCONbits RCONbits `VES107  1 e 1 @4048 ]
+"6183
+[v _T0CON T0CON `VEuc  1 e 1 @4053 ]
+"6260
+[v _TMR0 TMR0 `VEus  1 e 2 @4054 ]
+"6267
+[v _TMR0L TMR0L `VEuc  1 e 1 @4054 ]
+"6274
+[v _TMR0H TMR0H `VEuc  1 e 1 @4055 ]
+[s S24 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INT0IF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INT0IE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE_GIEL 1 0 :1:6 
+`uc 1 GIE_GIEH 1 0 :1:7 
+]
+"6733
+[s S33 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 INT0F 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 INT0E 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+[s S42 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 GIEL 1 0 :1:6 
+`uc 1 GIEH 1 0 :1:7 
+]
+[u S46 . 1 `S24 1 . 1 0 `S33 1 . 1 0 `S42 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES46  1 e 1 @4082 ]
+"45 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _Rows Rows `uc  1 s 1 Rows ]
+[v _Columns Columns `uc  1 s 1 Columns ]
+"46
+[v _RowAct RowAct `uc  1 s 1 RowAct ]
+[v _ColumnAct ColumnAct `uc  1 s 1 ColumnAct ]
+"47
+[v _Timer Timer `uc  1 s 1 Timer ]
+[s S210 Timer 5 `ul 1 TicsInicials 4 0 `uc 1 Busy 1 4 ]
+"14 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _Timers Timers `[4]S210  1 s 20 Timers ]
+"16
+[v _Tics Tics `VEul  1 s 4 Tics ]
+"39 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"44
+[v main@prueba prueba `[6]uc  1 a 6 24 ]
+"43
+[v main@F2596 F2596 `[6]uc  1 s 6 F2596 ]
+"60
+} 0
+"29
+[v _config_ports config_ports `(v  1 e 1 0 ]
+{
+"37
+} 0
+"28 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _TI_Init TI_Init `(v  1 e 1 0 ]
+{
+"29
+[v TI_Init@counter counter `uc  1 a 1 0 ]
+"37
+} 0
+"69 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _LcInit LcInit `(v  1 e 1 0 ]
+{
+[v LcInit@rows rows `uc  1 a 1 wreg ]
+"75
+[v LcInit@i i `uc  1 a 1 22 ]
+"69
+[v LcInit@rows rows `uc  1 a 1 wreg ]
+[v LcInit@columns columns `uc  1 p 1 20 ]
+"76
+[v LcInit@rows rows `uc  1 a 1 21 ]
+"107
+} 0
+"39 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _TI_NewTimer TI_NewTimer `(uc  1 e 1 0 ]
+{
+"40
+[v TI_NewTimer@Comptador Comptador `uc  1 a 1 3 ]
+"39
+[v TI_NewTimer@TimerHandle TimerHandle `*.39uc  1 p 2 0 ]
+"47
+} 0
+"280 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _EscriuPrimeraOrdre EscriuPrimeraOrdre `(v  1 e 1 0 ]
+{
+[v EscriuPrimeraOrdre@ordre ordre `uc  1 a 1 wreg ]
+[v EscriuPrimeraOrdre@ordre ordre `uc  1 a 1 wreg ]
+"282
+[v EscriuPrimeraOrdre@ordre ordre `uc  1 a 1 1 ]
+"289
+} 0
+"114
+[v _LcClear LcClear `(v  1 e 1 0 ]
+{
+"119
+} 0
+"211
+[v _Espera Espera `(v  1 e 1 0 ]
+{
+[v Espera@Timer Timer `uc  1 a 1 wreg ]
+[v Espera@Timer Timer `uc  1 a 1 wreg ]
+[v Espera@ms ms `i  1 p 2 13 ]
+[v Espera@Timer Timer `uc  1 a 1 19 ]
+"214
+} 0
+"23 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\main.c
+[v _config_interrupts config_interrupts `(v  1 e 1 0 ]
+{
+"27
+} 0
+"196 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _LcPutString LcPutString `(v  1 e 1 0 ]
+{
+[v LcPutString@s s `*.39uc  1 p 2 22 ]
+"201
+} 0
+"162
+[v _LcPutChar LcPutChar `(v  1 e 1 0 ]
+{
+[v LcPutChar@c c `uc  1 a 1 wreg ]
+[v LcPutChar@c c `uc  1 a 1 wreg ]
+"172
+[v LcPutChar@c c `uc  1 a 1 21 ]
+"193
+} 0
+"135
+[v _LcGotoXY LcGotoXY `(v  1 e 1 0 ]
+{
+[v LcGotoXY@Column Column `uc  1 a 1 wreg ]
+"139
+[v LcGotoXY@Fisics Fisics `uc  1 a 1 19 ]
+"135
+[v LcGotoXY@Column Column `uc  1 a 1 wreg ]
+[v LcGotoXY@Row Row `uc  1 p 1 14 ]
+[v LcGotoXY@Column Column `uc  1 a 1 20 ]
+"160
+} 0
+"262
+[v _WaitForBusy WaitForBusy `(v  1 e 1 0 ]
+{
+[v WaitForBusy@Busy Busy `uc  1 a 1 13 ]
+"278
+} 0
+"49 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _TI_ResetTics TI_ResetTics `(v  1 e 1 0 ]
+{
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 a 1 wreg ]
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 a 1 wreg ]
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 a 1 0 ]
+"51
+} 0
+"54
+[v _TI_GetTics TI_GetTics `(ul  1 e 4 0 ]
+{
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 a 1 wreg ]
+"55
+[v TI_GetTics@CopiaTicsActual CopiaTicsActual `ul  1 a 4 8 ]
+"54
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 a 1 wreg ]
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 a 1 12 ]
+"57
+} 0
+"230 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_lcd.c
+[v _CantaIR CantaIR `(v  1 e 1 0 ]
+{
+[v CantaIR@IR IR `uc  1 a 1 wreg ]
+[v CantaIR@IR IR `uc  1 a 1 wreg ]
+[v CantaIR@IR IR `uc  1 a 1 2 ]
+"244
+} 0
+"246
+[v _CantaData CantaData `(v  1 e 1 0 ]
+{
+[v CantaData@Data Data `uc  1 a 1 wreg ]
+[v CantaData@Data Data `uc  1 a 1 wreg ]
+[v CantaData@Data Data `uc  1 a 1 2 ]
+"260
+} 0
+"223
+[v _CantaPartBaixa CantaPartBaixa `(v  1 e 1 0 ]
+{
+[v CantaPartBaixa@c c `uc  1 a 1 wreg ]
+[v CantaPartBaixa@c c `uc  1 a 1 wreg ]
+[v CantaPartBaixa@c c `uc  1 a 1 1 ]
+"228
+} 0
+"216
+[v _CantaPartAlta CantaPartAlta `(v  1 e 1 0 ]
+{
+[v CantaPartAlta@c c `uc  1 a 1 wreg ]
+[v CantaPartAlta@c c `uc  1 a 1 wreg ]
+[v CantaPartAlta@c c `uc  1 a 1 1 ]
+"221
+} 0
+"19 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\main.c
+[v _RSI_High RSI_High `IIH(v  1 e 1 0 ]
+{
+"21
+} 0
+"18 C:\Users\jacob\OneDrive - La Salle\Compus_P2B.X\tad_timer.c
+[v _RSI_Timer0 RSI_Timer0 `(v  1 e 1 0 ]
+{
+"26
+} 0
