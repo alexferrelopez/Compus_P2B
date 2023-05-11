@@ -10,10 +10,9 @@
 #define COL1 PORTBbits.RB5
 #define COL2 PORTBbits.RB6
 
-//static unsigned char caracteres[] = {'1','2','A','B','C','3','D','E','F','4','G','H','I','5','J','K','L','6','M','N','O','7','P','Q','R','S','8','T','U','V','9','W','X','Y','Z','*','0',' ','#'};
 static unsigned char caracteres[] = {'1','A','B','C','2','D','E','F','3','G','H','I','4','J','K','L','5','M','N','O','6','P','Q','R','S','7','T','U','V','8','W','X','Y','Z','9','*','0',' ','#'};
 
-static unsigned char state, caracterActual, ultimoCaracter = '\0', timerTeclado, numPulsaciones, flagTecla, tecla, flagAnterior;
+static unsigned char state, caracterActual, ultimoCaracter, timerTeclado, numPulsaciones, flagTecla, tecla, flagAnterior;
 
 void teclado_init(void) {
     TRISBbits.TRISB0 = 1; // Fila 1 como entrada
@@ -23,14 +22,21 @@ void teclado_init(void) {
     TRISBbits.TRISB4 = 0; // Columna 1 como salida
     TRISBbits.TRISB5 = 0; // Columna 2 como salida
     TRISBbits.TRISB6 = 0; // Columna 3 como salida
+
     WPUBbits.WPUB0 = 1; // Pull-up en la fila 1
     WPUBbits.WPUB1 = 1; // Pull-up en la fila 2
     WPUBbits.WPUB2 = 1; // Pull-up en la fila 3
     WPUBbits.WPUB3 = 1; // Pull-up en la fila 4
+
     timerTeclado = TI_NewTimer(&timerTeclado); //Creamos un timer para el teclado
+    
     state = 0;
     numPulsaciones = 0;
     flagTecla = 0;
+	flagAnterior = 0;
+    caracterActual = 0;
+    ultimoCaracter = 0;
+
     TI_ResetTics(timerTeclado);
 }
 
@@ -59,7 +65,7 @@ void tecladoMotor(void) {
                 caracterActual = 21;
                 state = 3;
             } else if (ROW3 == 1) {
-                caracterActual = 35;
+                caracterActual = 35; 
                 state = 3;
             } else {
                 //Pasamos a barrer la siguiente columna
@@ -134,13 +140,13 @@ void tecladoMotor(void) {
             if (caracterActual == 0 || caracterActual == 35 || caracterActual == 36 || caracterActual == 38) {
                 numPulsaciones = 0;
             } else {
-                if ((caracterActual == 1 || caracterActual == 5 || caracterActual == 9 || caracterActual == 13 || caracterActual == 17 || caracterActual == 26) && numPulsaciones < 3) {
+                if ((caracterActual == 1 || caracterActual == 5 || caracterActual == 9 || caracterActual == 13 || caracterActual == 17 || caracterActual == 26) && (numPulsaciones < 3)) {
                     numPulsaciones++;
                 } else if (caracterActual == 1 || caracterActual == 5 || caracterActual == 9 || caracterActual == 13 || caracterActual == 17 || caracterActual == 26) {
                     numPulsaciones = 0;
                 }
         
-                if ((caracterActual == 21 || caracterActual == 30) && numPulsaciones < 4) {
+                if ((caracterActual == 21 || caracterActual == 30) && (numPulsaciones < 4)) {
                     numPulsaciones++;
                 } else if (caracterActual == 21 || caracterActual == 30) {
                     numPulsaciones = 0;
@@ -157,13 +163,13 @@ void tecladoMotor(void) {
             break;  
         case 7:
             // Comprobamos si se ha pulsado una tecla durante 1 segundo
-            if(Ti_GetTics(timerTeclado) >= 1000){
+            if (TI_GetTics(timerTeclado) >= 1000) {
 				tecla = caracteres[caracterActual + numPulsaciones];
 				flagAnterior = 0;
 				numPulsaciones = 0;
 				flagTecla = 1;
                 state = 0;
-            }else if(TiGetTics(timerTeclado) < 1000 && (ROW0 == 1 || ROW1 == 1 || ROW2 == 1 || ROW3 == 1)){
+            }else if (TI_GetTics(timerTeclado) < 1000 && (ROW0 == 1 || ROW1 == 1 || ROW2 == 1 || ROW3 == 1)) {
                 state = 0;
             }
             break;         

@@ -3,11 +3,13 @@
 #include "tad_altavoz.h"
 
 static unsigned char state,timeOn,timerPWM, contadorDutyCycle, valor;
-static unsigned char dutys[5] = {1,4,5,3,2};
-static unsigned short periodos[5] = {1000,250,200,333,500};
+static unsigned char dutys[5] = {6,4,5,3,2};
+static unsigned short periodos[5] = {167,250,200,333,500};
 
 static unsigned char tecla;
-static unsigned short periodos_tecla[12] = {261,277,294,311,330,349,370,392,415,440,466,494};
+
+static unsigned short periodos_tecla[12] = {100,150,200,250,300,350,400,450,500,550,600,650};
+//Los periodos más comunes para sonidos audibles oscilan entre los 10 y los 1000 milisegundos
 
 void altavoz_init() {
     TRISCbits.TRISC2 = 0;   // Configuramos el pin de salida del PWM
@@ -34,7 +36,7 @@ void altavozMotor() {
                 contadorDutyCycle++;
                 
                 if(contadorDutyCycle == dutys[timeOn]) {
-                    contadorDutyCycle = 0; //resetea contador DC
+                    contadorDutyCycle = 0; //Resetea contador de duty cycle
                     timeOn++; // Pasamos a la siguiente nota
                     if(timeOn == 5) {
                         // Ha terminado la reproduccion de la melodia (han pasado 5 segundos)
@@ -46,14 +48,22 @@ void altavozMotor() {
             }            
             case 2:
                 if (TI_GetTics(timerPWM) >= periodos_tecla[tecla]) {
-                    /*if (valor == 0) {
+                    //BTG
+                    if (valor == 0) {
                         valor = 1;
                         LATCbits.LATC2 = valor;
                     } else if (valor == 1) {
                         valor = 0;
                         LATCbits.LATC2 = valor;
-                    }*/
-                    status = 0;
+                    }
+                    contadorDutyCycle++;
+
+                    if (contadorDutyCycle == 2) { // 50% duty cycle
+                        contadorDutyCycle = 0;
+                        state = 0;
+                        LATCbits.LATC2 = 0;
+                    }
+                    TI_ResetTics(timerPWM);
                 }
                 break;
         break;  
@@ -73,6 +83,7 @@ void setSonidoTecla(char tecla) {
     state = 2;
     valor = 1;
     LATCbits.LATC2 = valor; // Enceendemos el altavoz
+    contadorDutyCycle = 0;
 
     switch (tecla) {
         case '1':

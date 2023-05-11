@@ -4,7 +4,7 @@
 
 // Definicions, per interrupcio cada 1ms.
 #define T0CON_CONFIG 0x82  	   // T0CON = b'10000010'
-#define RECARREGA_TMR0 55536       
+#define RECARREGA_TMR0 55536       //2^16 - 1ms/100ns = 55536 
 
 #define TI_NUMTIMERS 4              // Nombre de timers virtuals gestionats per aquest TAD. Si cal, s'incrementa o es disminueix...
 
