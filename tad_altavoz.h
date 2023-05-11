@@ -3,5 +3,8 @@
 
 
 void altavoz_init();
+void altavozMotor();
+void setMelodia(char c);
+void setSonidoTecla(char tecla);
 
 #endif

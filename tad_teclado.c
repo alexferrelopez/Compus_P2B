@@ -10,9 +10,10 @@
 #define COL1 PORTBbits.RB5
 #define COL2 PORTBbits.RB6
 
-static unsigned char caracteres[] = {'1','2','A','B','C','3','D','E','F','4','G','H','I','5','J','K','L','6','M','N','O','7','P','Q','R','S','8','T','U','V','9','W','X','Y','Z','*','0',' ','#'};
+//static unsigned char caracteres[] = {'1','2','A','B','C','3','D','E','F','4','G','H','I','5','J','K','L','6','M','N','O','7','P','Q','R','S','8','T','U','V','9','W','X','Y','Z','*','0',' ','#'};
+static unsigned char caracteres[] = {'1','A','B','C','2','D','E','F','3','G','H','I','4','J','K','L','5','M','N','O','6','P','Q','R','S','7','T','U','V','8','W','X','Y','Z','9','*','0',' ','#'};
 
-static unsigned char state, caracterActual, ultimoCaracter = '\0', timerTeclado, numPulsaciones, caracterRecibido = '', flagTecla, tecla;
+static unsigned char state, caracterActual, ultimoCaracter = '\0', timerTeclado, numPulsaciones, flagTecla, tecla, flagAnterior;
 
 void teclado_init(void) {
     TRISBbits.TRISB0 = 1; // Fila 1 como entrada
@@ -30,6 +31,7 @@ void teclado_init(void) {
     state = 0;
     numPulsaciones = 0;
     flagTecla = 0;
+    TI_ResetTics(timerTeclado);
 }
 
 char getTecla(void) {
@@ -120,12 +122,13 @@ void tecladoMotor(void) {
             }
             break;
         case 5:
-            if (caracterActual != ultimoCaracter) {
+            if ((caracterActual != ultimoCaracter) && (flagAnterior != 0)) {
                 tecla = caracteres[caracterActual + numPulsaciones];
                 numPulsaciones = 0;
                 flagTecla = 1;
             }
             ultimoCaracter = caracterActual;
+            flagAnterior = 1;
 
             //Si la tecla pulsada es: (1 o * o 0 o #) ignoramos la tecla
             if (caracterActual == 0 || caracterActual == 35 || caracterActual == 36 || caracterActual == 38) {
@@ -147,10 +150,22 @@ void tecladoMotor(void) {
             break;
         case 6:
             //Esperamos a que se suelte la tecla
-            /*if (ROW0 == 0 && ROW1 == 0 && ROW2 == 0 && ROW3 == 0) {
+            if (ROW0 == 0 && ROW1 == 0 && ROW2 == 0 && ROW3 == 0) {
                 TI_ResetTics(timerTeclado);
                 state++;
-            }*/
-            break;       
+            }
+            break;  
+        case 7:
+            // Comprobamos si se ha pulsado una tecla durante 1 segundo
+            if(Ti_GetTics(timerTeclado) >= 1000){
+				tecla = caracteres[caracterActual + numPulsaciones];
+				flagAnterior = 0;
+				numPulsaciones = 0;
+				flagTecla = 1;
+                state = 0;
+            }else if(TiGetTics(timerTeclado) < 1000 && (ROW0 == 1 || ROW1 == 1 || ROW2 == 1 || ROW3 == 1)){
+                state = 0;
+            }
+            break;         
     }
 }
