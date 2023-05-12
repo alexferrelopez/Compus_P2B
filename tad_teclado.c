@@ -1,6 +1,7 @@
 #include <xc.h>
 
 #include "tad_teclado.h"
+#include "tad_timer.h"
 
 #define ROW0 PORTBbits.RB0
 #define ROW1 PORTBbits.RB1
@@ -23,6 +24,7 @@ void teclado_init(void) {
     TRISBbits.TRISB5 = 0; // Columna 2 como salida
     TRISBbits.TRISB6 = 0; // Columna 3 como salida
 
+    OPTION_REGbits.nRBPU = 0; // Habilitamos las resistencias de pull-up
     WPUBbits.WPUB0 = 1; // Pull-up en la fila 1
     WPUBbits.WPUB1 = 1; // Pull-up en la fila 2
     WPUBbits.WPUB2 = 1; // Pull-up en la fila 3

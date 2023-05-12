@@ -1,7 +1,7 @@
 #include <xc.h>
 
-//#include "tad_teclado.h"
-//#include "tad_altavoz.h"
+#include "tad_teclado.h"
+#include "tad_altavoz.h"
 #include "tad_timer.h"
 //#include "tad_eusart.h"
 #include "tad_lcd.h"
@@ -28,24 +28,27 @@ void config_interrupts(void) {
 }
 
 void config_ports(void) {
-	//teclado_init();
-	//altavoz_init();
-	TI_Init();
+	teclado_init();
+	altavoz_init();
+	//TI_Init();
 	//eusartInit();
-	LcInit(2, 16);
-    LcClear();
+    //LcClear();
+	//LcInit(2, 16);
+    //LcClear();
 }
 
 void main(void) {
 	config_ports();
 	config_interrupts();
 
-    LcGotoXY(0,0); 
-    char prueba[] = "KEVIN";
-    LcPutString(prueba);
+    /*Si quieres probar la pantalla comenta la linea 40 y 41*/
+    /*LcGotoXY(0,0); 
+    unsigned char prueba[] = "kevin";
+    LcPutString(prueba);*/
     //LcPutChar('L');
 			
-    /*while(1) {
-		//tecladoMotor();
-	}*/		
+    while(1) {
+		tecladoMotor();
+        altavozMotor();
+	}		
 }

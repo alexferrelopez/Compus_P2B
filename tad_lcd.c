@@ -72,8 +72,8 @@ void LcInit(char rows, char columns) {
 // Pre: There is a free timer
 // Post: This routine can last until 100ms
 // Post: The display remains cleared, the cursor is turned OFF and at the position (0, 0).
-	char i;
-	TI_NewTimer(&Timer); 
+	int i;
+	Timer = TI_NewTimer(&Timer); 
 	Rows = rows; Columns = columns;
 	RowAct = ColumnAct = 0;
 	SetControlsSortida();

@@ -1,6 +1,7 @@
 #include <xc.h>
 
 #include "tad_altavoz.h"
+#include "tad_timer.h"
 
 static unsigned char state,timeOn,timerPWM, contadorDutyCycle, valor;
 static unsigned char dutys[5] = {6,4,5,3,2};
@@ -24,7 +25,7 @@ void altavozMotor() {
             TI_ResetTics(timerPWM);   
             break;
         case 1:
-            if(TiGetTics(timerPWM) >= periodos[timeOn]) {   
+            if(TI_GetTics(timerPWM) >= periodos[timeOn]) {   
                 //BTG 
                 if (valor == 0) {
                     valor = 1;
