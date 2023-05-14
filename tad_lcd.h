@@ -28,7 +28,7 @@
 // RS, R/W and E.
 // In this example we have connected: 
 //
-// 	RS				to RA7
+// 	RS				to RE0
 //	R/!W            to RC5
 //  E				to RC4	
 //	D4				to RC0
@@ -44,14 +44,14 @@
 
 #define SetD4_D7Sortida()		(TRISCbits.TRISC0 = TRISCbits.TRISC1 = TRISCbits.TRISC2 = TRISCbits.TRISC3 = 0)
 #define SetD4_D7Entrada()		(TRISCbits.TRISC0 = TRISCbits.TRISC1 = TRISCbits.TRISC2 = TRISCbits.TRISC3 = 1)
-#define SetControlsSortida()            (TRISAbits.TRISA7 = TRISCbits.TRISC5 = TRISCbits.TRISC4 = 0)
+#define SetControlsSortida()            (TRISEbits.TRISE0 = TRISCbits.TRISC5 = TRISCbits.TRISC4 = 0)
 #define SetD4(On)				(LATCbits.LATC0 = (On))
 #define SetD5(On)				(LATCbits.LATC1 = (On))
 #define SetD6(On)				(LATCbits.LATC2 = (On))
 #define SetD7(On)				(LATCbits.LATC3 = (On))
 #define GetBusyFlag()                           (PORTCbits.RC3)
-#define RSUp()					(LATAbits.LATA7 = 1)
-#define RSDown()				(LATAbits.LATA7 = 0)
+#define RSUp()					(LATEbits.LATE0 = 1)
+#define RSDown()				(LATEbits.LATE0 = 0)
 #define RWUp()					(LATCbits.LATC5 = 1)
 #define RWDown()				(LATCbits.LATC5 = 0)
 #define EnableUp()				(LATCbits.LATC4 = 1)

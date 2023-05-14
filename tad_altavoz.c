@@ -12,16 +12,17 @@ static unsigned char tecla;
 static unsigned short periodos_tecla[12] = {100,150,200,250,300,350,400,450,500,550,600,650};
 //Los periodos más comunes para sonidos audibles oscilan entre los 10 y los 1000 milisegundos
 
-void altavoz_init() {
-    TRISCbits.TRISC2 = 0;   // Configuramos el pin de salida del PWM
+void altavoz_init(void) {
+    TRISBbits.TRISB7 = 0;   // Configuramos el pin de salida del PWM
     timerPWM = TI_NewTimer(&timerPWM); //Creamos un timer para el PWM
     state = 0;
+    return;
 }
 
-void altavozMotor() {
+void altavozMotor(void) {
     switch (state) {
         case 0:
-            LATCbits.LATC2 = 0; // Apagamos el altavoz
+            LATBbits.LATB7 = 0; // Apagamos el altavoz
             TI_ResetTics(timerPWM);   
             break;
         case 1:
@@ -29,10 +30,10 @@ void altavozMotor() {
                 //BTG 
                 if (valor == 0) {
                     valor = 1;
-                    LATCbits.LATC2 = valor;
+                    LATBbits.LATB7 = valor;
                 } else if (valor == 1) {
                     valor = 0;
-                    LATCbits.LATC2 = valor;
+                    LATBbits.LATB7 = valor;
                 }
                 contadorDutyCycle++;
                 
@@ -42,7 +43,7 @@ void altavozMotor() {
                     if(timeOn == 5) {
                         // Ha terminado la reproduccion de la melodia (han pasado 5 segundos)
                         state = 0; 
-                        LATCbits.LATC2 = 0;
+                        LATBbits.LATB7 = 0;
                     }
                 } 
                 TI_ResetTics(timerPWM);
@@ -52,17 +53,17 @@ void altavozMotor() {
                     //BTG
                     if (valor == 0) {
                         valor = 1;
-                        LATCbits.LATC2 = valor;
+                        LATBbits.LATB7 = valor;
                     } else if (valor == 1) {
                         valor = 0;
-                        LATCbits.LATC2 = valor;
+                        LATBbits.LATB7 = valor;
                     }
                     contadorDutyCycle++;
 
                     if (contadorDutyCycle == 2) { // 50% duty cycle
                         contadorDutyCycle = 0;
                         state = 0;
-                        LATCbits.LATC2 = 0;
+                        LATBbits.LATB7 = 0;
                     }
                     TI_ResetTics(timerPWM);
                 }
@@ -76,14 +77,14 @@ void setMelodia(char c) {
     timeOn = 0;
     contadorDutyCycle = 0;
     valor = 1;
-    LATCbits.LATC2 = valor; // Encendemos el altavoz
+    LATBbits.LATB7 = valor; // Encendemos el altavoz
     TI_ResetTics(timerPWM);
 }
 
 void setSonidoTecla(char tecla) {
     state = 2;
     valor = 1;
-    LATCbits.LATC2 = valor; // Enceendemos el altavoz
+    LATBbits.LATB7 = valor; // Enceendemos el altavoz
     contadorDutyCycle = 0;
 
     switch (tecla) {

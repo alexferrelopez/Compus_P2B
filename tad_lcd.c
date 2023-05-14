@@ -79,6 +79,7 @@ void LcInit(char rows, char columns) {
 	SetControlsSortida();
 	for (i = 0; i < 2; i++) {
 		Espera(Timer, 100);
+
 		// This sequence is set by the manual.
 
 		EscriuPrimeraOrdre(CURSOR_ON | DISPLAY_CLEAR);

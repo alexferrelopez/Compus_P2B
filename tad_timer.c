@@ -6,7 +6,7 @@
 #define T0CON_CONFIG 0x82  	   // T0CON = b'10000010'
 #define RECARREGA_TMR0 55536       //2^16 - 1ms/100ns = 55536 
 
-#define TI_NUMTIMERS 4              // Nombre de timers virtuals gestionats per aquest TAD. Si cal, s'incrementa o es disminueix...
+#define TI_NUMTIMERS 8              // Nombre de timers virtuals gestionats per aquest TAD. Si cal, s'incrementa o es disminueix...
 
 struct Timer {
 	unsigned long TicsInicials;
@@ -29,6 +29,7 @@ void TI_Init () {
 	for (unsigned char counter = 0; counter < TI_NUMTIMERS; counter++) {
 		Timers[counter].Busy = TI_FALS;
 	}
+    
 	T0CON = T0CON_CONFIG; 
     TMR0 = RECARREGA_TMR0;
 	INTCONbits.TMR0IF = 0;
