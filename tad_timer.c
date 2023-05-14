@@ -3,7 +3,7 @@
 #include "tad_timer.h"
 
 // Definicions, per interrupcio cada 1ms.
-#define T0CON_CONFIG 0x82  	   // T0CON = b'10000010'
+#define T0CON_CONFIG 0x88  	   // T0CON = b'10001000'
 #define RECARREGA_TMR0 55536       //2^16 - 1ms/100ns = 55536 
 
 #define TI_NUMTIMERS 8              // Nombre de timers virtuals gestionats per aquest TAD. Si cal, s'incrementa o es disminueix...
@@ -18,9 +18,7 @@ static volatile unsigned long Tics = 0;
 void RSI_Timer0 () {
     // Pre: IMPORTANT! Funci� que ha der ser cridada des de la RSI, en en cas que TMR0IF==1.
 	//Recargar el timer0
-	TMR0L = RECARREGA_TMR0 & 0xFF; // Asignar los 8 bits de menor peso a TMR0L
-    TMR0H = (RECARREGA_TMR0 >> 8) & 0xFF; // Asignar los 8 bits de mayor peso a TMR0H
-
+	TMR0 = RECARREGA_TMR0;
     INTCONbits.TMR0IF = 0;
     Tics++;    
 }

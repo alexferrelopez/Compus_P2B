@@ -7,7 +7,7 @@
 #include "tad_lcd.h"
 //#include "tad_controller.h"
 
-#pragma config OSC = HS //Convertimos el cristal externo de 10MHz en 40MHz
+#pragma config OSC = HSPLL //Convertimos el cristal externo de 10MHz en 40MHz
 #pragma config PBADEN = DIG
 #pragma config MCLRE = ON
 #pragma config DEBUG = OFF
@@ -35,25 +35,29 @@ void config_ports(void) {
     
 	//eusartInit();
 	LcInit(2, 16);
-    
     LcClear();
 }
 
 void main(void) {
+    TRISAbits.TRISA3 = 0;
 	config_ports();
 	config_interrupts();
     
-    /*LcCursorOn();
     LcGotoXY(0,0);
+    LcCursorOff();
 	LcPutString("KEVIN");
-    LcGotoXY(0,1);
-    LcPutString("LEVANA");*/
-    LcGotoXY(0,0);
     
     setSonidoTecla('9');
     
     while(1) {
 		tecladoMotor();
+        if (getflagTecla() == 1) {
+            if (getflagTecla() != '#')
+                LcPutChar(getTecla());
+            else {
+                LcClear();
+            }
+        }
         altavozMotor();
 	}		
 }
