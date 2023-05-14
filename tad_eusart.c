@@ -33,9 +33,7 @@ void eusartSendChar(unsigned char c) {
 
 // Funci�n para recibir un caracter a trav�s del EUSART
 char eusartReceiveChar(void) {
-    if(PIR1bits.RCIF) {       // Si se ha recibido un caracter
-        return RCREG;        // Retornar el caracter recibido
-    }
+    return RCREG;
 }
 
 //esperar a que el canal este disponible, si envio no paso.

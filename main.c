@@ -29,9 +29,9 @@ void config_interrupts(void) {
 
 void config_ports(void) {
     TI_Init();
-	//teclado_init();
+	teclado_init();
     
-	altavoz_init();
+	//altavoz_init();
     
 	//eusartInit();
 	LcInit(2, 16);
@@ -40,24 +40,28 @@ void config_ports(void) {
 
 void main(void) {
     TRISAbits.TRISA3 = 0;
-	config_ports();
 	config_interrupts();
+    config_ports();
     
-    LcGotoXY(0,0);
+    LcGotoXY(0,1);
     LcCursorOff();
-	LcPutString("KEVIN");
-    
-    setSonidoTecla('9');
+    char pos = 0;
     
     while(1) {
 		tecladoMotor();
+        
         if (getflagTecla() == 1) {
-            if (getflagTecla() != '#')
-                LcPutChar(getTecla());
-            else {
-                LcClear();
-            }
+            unsigned char tecla = getTecla();
+            LcPutChar(tecla);
+            pos++;
+            setSonidoTecla(getIndexTecla());
         }
-        altavozMotor();
+        else if (getflagTecla() == 4) {
+            
+            LcGotoXY(pos,1);
+            unsigned char tecla = getTecla();
+            LcPutChar(tecla);
+        }
+        //altavozMotor();
 	}		
 }

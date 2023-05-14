@@ -2,6 +2,7 @@
 
 #include "tad_teclado.h"
 #include "tad_timer.h"
+#include "tad_altavoz.h"
 
 #define ROW0 PORTBbits.RB0
 #define ROW1 PORTBbits.RB1
@@ -10,9 +11,12 @@
 #define COL0 LATBbits.LATB4
 #define COL1 LATBbits.LATB5
 #define COL2 LATBbits.LATB6
+#define POSSIBLE_TECLA 2
+#define ESPERA_1s   3
+#define TECLA_READY 1
+#define REPLACE_LAST 4
 
-//static unsigned char caracteres[][] = {{'1'},{'A','B','C','2'},{'D','E','F','3'},'G','H','I','4','J','K','L','5','M','N','O','6','P','Q','R','S','7','T','U','V','8','W','X','Y','Z','9','*','0',' ','#'};
-static unsigned char caracteres[][] = {
+static unsigned char caracteres[12][5] = {
 {'1'}, //1 indice 0
 {'A','B','C','2'}, //2 indice 1
 {'D','E','F','3'}, //2 indice 2
@@ -24,9 +28,12 @@ static unsigned char caracteres[][] = {
 {'W','X','Y','Z','9'}, //3 indice 8
 {'*'}, //1 indice 9
 {'0',' '}, //4 indice 10
-{'#'}}; //1 indice 11
+{'#'}
+}; //1 indice 11
 
-static unsigned char state, timerTeclado, numPulsaciones, flagTecla, tecla, flagAnterior, indexTecla, ultimoIndiceTecla;
+static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, tecla, indexTecla, ultimoIndiceTecla;
+
+static unsigned long ab;
 
 void teclado_init(void) {
     TRISBbits.TRISB0 = 1; // Fila 1 como entrada
@@ -40,22 +47,25 @@ void teclado_init(void) {
     INTCON2bits.RBPU = 0; // Habilitamos las resistencias de pull-up
 
     timerTeclado = TI_NewTimer(&timerTeclado); //Creamos un timer para el teclado
-    
+    timer1s = TI_NewTimer(&timer1s); //Creamos un timer para el teclado
+
     state = 0;
     numPulsaciones = 0;
     flagTecla = 0;
-	//flagAnterior = 0;
-    //caracterActual = 0;
-    //ultimoCaracter = 0;
     indexTecla = 13;
     ultimoIndiceTecla = 13;
 
     TI_ResetTics(timerTeclado);
+    TI_ResetTics(timer1s);
 }
 
 char getTecla(void) {
     flagTecla = 0;
     return tecla;
+}
+
+char getIndexTecla(void){
+    return indexTecla;
 }
 
 char getflagTecla(void){
@@ -65,22 +75,26 @@ char getflagTecla(void){
 void tecladoMotor(void) {
     switch (state) {
         case 0: //Barremos la primera columna
-            COL0 = 1;
-            COL1 = 0;
-            COL2 = 0;
-            if (ROW0 == 1) {
+            if (TI_GetTics(timer1s) >= 1000 && flagTecla == ESPERA_1s) {
+                flagTecla = REPLACE_LAST;
+            }
+            
+            COL0 = 0;
+            COL1 = 1;
+            COL2 = 1;
+            if (ROW0 == 0) {
                 //caracterActual = 0;
                 indexTecla = 0;
                 state = 3;
-            } else if (ROW1 == 1) {
+            } else if (ROW1 == 0) {
                 indexTecla = 3;
                 //caracterActual = 9;
                 state = 3;
-            } else if (ROW2 == 1) {
+            } else if (ROW2 == 0) {
                 //caracterActual = 21;
                 indexTecla = 6;
                 state = 3;
-            } else if (ROW3 == 1) {
+            } else if (ROW3 == 0) {
                 //caracterActual = 35; 
                 indexTecla = 9;
                 state = 3;
@@ -90,22 +104,22 @@ void tecladoMotor(void) {
             }
             break;
         case 1:  //Barremos la segunda columna
-            COL0 = 0;
-            COL1 = 1;
-            COL2 = 0;
-            if (ROW0 == 1) {
+            COL0 = 1;
+            COL1 = 0;
+            COL2 = 1;
+            if (ROW0 == 0) {
                 indexTecla = 1;
                 //caracterActual = 1;
                 state = 3;
-            } else if (ROW1 == 1) {
+            } else if (ROW1 == 0) {
                 indexTecla = 4;
                 //caracterActual = 13;
                 state = 3;
-            } else if (ROW2 == 1) {
+            } else if (ROW2 == 0) {
                 indexTecla = 7;
                 //caracterActual = 26;
                 state = 3;
-            } else if (ROW3 == 1) {
+            } else if (ROW3 == 0) {
                 indexTecla = 10;
                 //caracterActual = 36;
                 state = 3;
@@ -115,22 +129,22 @@ void tecladoMotor(void) {
             }
             break;
         case 2: //Barremos la tercera columna
-            COL0 = 0;
-            COL1 = 0;
-            COL2 = 1;
-            if (ROW0 == 1) {
+            COL0 = 1;
+            COL1 = 1;
+            COL2 = 0;
+            if (ROW0 == 0) {
                 indexTecla = 2;
                 //caracterActual = 5; 
                 state = 3;
-            } else if (ROW1 == 1) {
+            } else if (ROW1 == 0) {
                 indexTecla = 5;
                 //caracterActual = 17;
                 state = 3;
-            } else if (ROW2 == 1) {
+            } else if (ROW2 == 0) {
                 indexTecla = 8;
                 //caracterActual = 30;
                 state = 3;
-            } else if (ROW3 == 1) {
+            } else if (ROW3 == 0) {
                 indexTecla = 11;
                 //caracterActual = 38;
                 state = 3;
@@ -145,7 +159,8 @@ void tecladoMotor(void) {
             break;    
         case 4: 
             // Procesar los 16ms de rebotes del teclado
-            if (TI_GetTics(timerTeclado) > 16) {
+            ab = TI_GetTics(timerTeclado);
+            if (ab >= 16) {
                 if (ROW0 == 0 || ROW1 == 0 || ROW2 == 0 || ROW3 == 0) {
                     // Se ha detectado una tecla
                     state++;
@@ -159,23 +174,21 @@ void tecladoMotor(void) {
             if (indexTecla != ultimoIndiceTecla) {
                 numPulsaciones = 0;
                 tecla = caracteres[indexTecla][numPulsaciones];
-            } else if (indexTecla == ultimoIndiceTecla) {
-                if (TI_GetTics(timerTeclado) >= 1000) {
+                flagTecla = POSSIBLE_TECLA;
+            } else if (indexTecla == ultimoIndiceTecla) { 
+                TI_ResetTics(timer1s);
+                flagTecla = ESPERA_1s;
+                numPulsaciones++;
+                if ((indexTecla == 0 || indexTecla == 9 || indexTecla == 11) && numPulsaciones == 1) {
                     numPulsaciones = 0;
-                    tecla = caracteres[indexTecla][numPulsaciones];
-                } else {
-                    numPulsaciones++;
-                    if ((indexTecla == 0 || indexTecla == 9 || indexTecla == 11) && numPulsaciones == 1) {
-                        numPulsaciones = 0;
-                    } else if ((indexTecla == 1 || indexTecla == 2 || indexTecla == 3 || indexTecla == 4 || indexTecla == 5 || indexTecla == 7) && numPulsaciones == 4) {
-                        numPulsaciones = 0;
-                    } else if ((indexTecla == 6 || indexTecla == 8) && numPulsaciones == 5) {
-                        numPulsaciones = 0;
-                    } else if ((indexTecla == 10) && numPulsaciones == 2) {
-                        numPulsaciones = 0;
-                    }
-                    tecla = caracteres[indexTecla][numPulsaciones];
+                } else if ((indexTecla == 1 || indexTecla == 2 || indexTecla == 3 || indexTecla == 4 || indexTecla == 5 || indexTecla == 7) && numPulsaciones == 4) {
+                    numPulsaciones = 0;
+                } else if ((indexTecla == 6 || indexTecla == 8) && numPulsaciones == 5) {
+                    numPulsaciones = 0;
+                } else if ((indexTecla == 10) && numPulsaciones == 2) {
+                    numPulsaciones = 0;
                 }
+                tecla = caracteres[indexTecla][numPulsaciones];
             }
             ultimoIndiceTecla = indexTecla;
             state++;
@@ -190,9 +203,8 @@ void tecladoMotor(void) {
             // Procesar los 16ms de rebotes del teclado
             if (TI_GetTics(timerTeclado) > 16) {
                 if (ROW0 == 1 && ROW1 == 1 && ROW2 == 1 && ROW3 == 1) {
-                    flagTecla = 1;
                     state = 0;
-                    TI_ResetTics(timerTeclado); 
+                    if (flagTecla == POSSIBLE_TECLA) flagTecla = TECLA_READY;
                 }  else {
                     state--;
                 }
