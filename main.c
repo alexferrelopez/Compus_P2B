@@ -31,7 +31,7 @@ void config_ports(void) {
     TI_Init();
 	teclado_init();
     
-	//altavoz_init();
+	altavoz_init();
     
 	//eusartInit();
 	LcInit(2, 16);
@@ -64,10 +64,11 @@ void main(void) {
                 LcPutChar(tecla);
                 pos++;
 
-                setSonidoTecla(getIndexTecla());
+                
             }
+            setSonidoTecla(getIndexTecla());
             teclaProcesada();
         }
-        //altavozMotor();
+        altavozMotor();
 	}		
 }

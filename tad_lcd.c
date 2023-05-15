@@ -73,7 +73,7 @@ void LcInit(char rows, char columns) {
 // Post: This routine can last until 100ms
 // Post: The display remains cleared, the cursor is turned OFF and at the position (0, 0).
 	int i;
-	Timer = TI_NewTimer(&Timer); 
+	TI_NewTimer(&Timer); 
 	Rows = rows; Columns = columns;
 	RowAct = ColumnAct = 0;
 	SetControlsSortida();
