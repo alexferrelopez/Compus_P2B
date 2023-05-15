@@ -5,6 +5,7 @@
 #include "tad_teclado.h"
 #include "tad_lcd.h"
 #include "tad_altavoz.h"
+#include "tad_marquesina.h"
 
 void controllerInit (void);
 void controllerMotor(void);
