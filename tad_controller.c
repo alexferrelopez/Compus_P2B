@@ -1,42 +1,34 @@
 #include "tad_controller.h"
 
-static unsigned char state, nameCharCount, pos;
+static unsigned char state, nameCharCount;
 static char portName[3];
-static unsigned char visited;
+static unsigned char PortNameStr[] = "PORT NAME:";
 
 void controllerInit (void) {
     state = 0;
     nameCharCount = 0;
-    pos = 0;
     LcGotoXY(0,0);
-    visited = 0; 
 }
 
 void controllerMotor(void) {
      switch (state) { //TOWER SELECTION
         case 0:
-            if (!visited) visited = printPortString(1);
-            LcGotoXY(pos,1);
+            printPortString(PortNameStr, sizeof(PortNameStr), 0);
+            unsigned char pos = getPosTecla();
             if (hiHaTecla()) {
             unsigned char tecla = getTecla();
             if (tecla == '*')
             {
                 clearScreen();
-                pos = 0;
-                visited = 0;
+                resetPosTecla();
             } else if (tecla == '#'){
-            
                 state++;
             }
             else{
-                if (haDeSubstituir() && pos < 2) {
-                    pos--;
-                }
-                
+                if (pos > 2) pos = 2;
                 LcGotoXY(pos,1);
                 portName[pos] = tecla;
                 LcPutChar(tecla);
-                if (pos < 2) pos++;
             }
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();

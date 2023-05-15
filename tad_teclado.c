@@ -27,7 +27,8 @@ static unsigned char caracteres[12][5] = {
 {'#'}
 }; //1 indice 11
 
-static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, flagtmp, tecla, indexTecla, ultimoIndiceTecla;
+static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, lastFlag,
+        flagtmp, tecla, indexTecla, ultimoIndiceTecla, posTecla, letterIsSet;
 
 static unsigned long ab;
 
@@ -39,6 +40,7 @@ void teclado_init(void) {
     TRISBbits.TRISB4 = 0; // Columna 1 como salida
     TRISBbits.TRISB5 = 0; // Columna 2 como salida
     TRISBbits.TRISB6 = 0; // Columna 3 como salida
+    
 
     INTCON2bits.RBPU = 0; // Habilitamos las resistencias de pull-up
 
@@ -50,6 +52,8 @@ void teclado_init(void) {
     flagTecla = 0;
     indexTecla = 13;
     ultimoIndiceTecla = 13;
+    posTecla = 0;
+    letterIsSet = 1;
 
     TI_ResetTics(timerTeclado);
     TI_ResetTics(timer1s);
@@ -71,21 +75,27 @@ char getFlagTecla(void){
     return flagTecla;
 }
 
-char haDeSubstituir(void){
-    return flagTecla == REPLACE_LAST;
+void teclaProcesada(void) {
+    lastFlag = flagTecla;
+    flagTecla = 0;
 }
 
-void teclaProcesada(void) {
-    flagTecla = flagTecla & 0xFE;
+unsigned char getPosTecla (void) {
+    return posTecla-1;
+}
+
+void resetPosTecla (void) {
+    posTecla = 0;
 }
 
 void tecladoMotor(void) {
     switch (state) {
         case 0: //Barremos la primera columna
-            if (TI_GetTics(timer1s) >= 1000 && (flagTecla & 1) == 0) {
+            if (TI_GetTics(timer1s) >= 1000 && !letterIsSet) {
                 indexTecla = 13;
                 ultimoIndiceTecla = 12;
                 numPulsaciones = 0;
+                letterIsSet = 1;
             }
             
             COL0 = 0;
@@ -172,8 +182,8 @@ void tecladoMotor(void) {
                 numPulsaciones = 0;
                 tecla = caracteres[indexTecla][numPulsaciones];
                 flagtmp = TECLA_READY;
+                posTecla++;
             } else if (indexTecla == ultimoIndiceTecla) { 
-                
                 flagtmp = REPLACE_LAST;
                 numPulsaciones++;
                 if ((indexTecla == 0 || indexTecla == 9 || indexTecla == 11) && numPulsaciones == 1) {
@@ -203,6 +213,7 @@ void tecladoMotor(void) {
                 if (ROW0 == 1 && ROW1 == 1 && ROW2 == 1 && ROW3 == 1) {
                     state = 0;
                     flagTecla = flagtmp;
+                    letterIsSet = 0;
                 }  else {
                     state--;
                 }
