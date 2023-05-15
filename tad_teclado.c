@@ -92,19 +92,15 @@ void tecladoMotor(void) {
             COL1 = 1;
             COL2 = 1;
             if (ROW0 == 0) {
-                //caracterActual = 0;
                 indexTecla = 0;
                 state = 3;
             } else if (ROW1 == 0) {
                 indexTecla = 3;
-                //caracterActual = 9;
                 state = 3;
             } else if (ROW2 == 0) {
-                //caracterActual = 21;
                 indexTecla = 6;
                 state = 3;
             } else if (ROW3 == 0) {
-                //caracterActual = 35; 
                 indexTecla = 9;
                 state = 3;
             } else {
@@ -118,19 +114,15 @@ void tecladoMotor(void) {
             COL2 = 1;
             if (ROW0 == 0) {
                 indexTecla = 1;
-                //caracterActual = 1;
                 state = 3;
             } else if (ROW1 == 0) {
                 indexTecla = 4;
-                //caracterActual = 13;
                 state = 3;
             } else if (ROW2 == 0) {
                 indexTecla = 7;
-                //caracterActual = 26;
                 state = 3;
             } else if (ROW3 == 0) {
                 indexTecla = 10;
-                //caracterActual = 36;
                 state = 3;
             } else {
                 //Pasamos a barrer la siguiente columna
@@ -143,19 +135,15 @@ void tecladoMotor(void) {
             COL2 = 0;
             if (ROW0 == 0) {
                 indexTecla = 2;
-                //caracterActual = 5; 
                 state = 3;
             } else if (ROW1 == 0) {
                 indexTecla = 5;
-                //caracterActual = 17;
                 state = 3;
             } else if (ROW2 == 0) {
                 indexTecla = 8;
-                //caracterActual = 30;
                 state = 3;
             } else if (ROW3 == 0) {
                 indexTecla = 11;
-                //caracterActual = 38;
                 state = 3;
             } else {
                 //Pasamos a barrer la primera columna
