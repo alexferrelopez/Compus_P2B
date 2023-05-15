@@ -2,17 +2,17 @@
 
 #include "tad_adc.h"
 
-#define ADCON1_CONFIG 0b00001101
-#define ADCON2_CONFIG 0b00000000
+#define ADCON1_CONFIG 13
+#define ADCON2_CONFIG 0
 
-unsigned char ADCON0_CONFIG = 0b00000001, up, down, center, valorMicro, flagMicro, status;
+unsigned char ADCON0_CONFIG = 1, up, down, center, valorMicro, flagMicro, status, check;
 
 void adc_init(void) {
+    ADCON0 = ADCON0_CONFIG; // He creado una variable en vez de un define dado que su valor puede cambiar en tiempo de ejecuciÃ³n.
+    ADCON1 = ADCON1_CONFIG;
+    ADCON2 = ADCON2_CONFIG;
     TRISAbits.TRISA0 = 1; // Configuramos el pin de entrada del ADC para el joystick
     TRISAbits.TRISA1 = 1; // Configuramos el pin de entrada del ADC para el micro
-    ADCON0 = ADCON0_CONFIG // He creado una variable en vez de un define dado que su valor puede cambiar en tiempo de ejecuciÃ³n.
-    ADCON1 = ADCON1_CONFIG
-    ADCON2 = ADCON2_CONFIG
     status = 0;
     up = 0;
     down = 0;
@@ -33,25 +33,34 @@ void adcMotor(void) {
             status++;
             break;
         case 1:
+            TRISAbits.TRISA3 = 0;
+            //LATAbits.LATA3 = 1;
             if (ADCON0bits.GODONE == 0) {
-                //Obtenemos el valor del ADC y lo guardamos en una variable
-                if (ADRESH > 0x80) {
-                    //Si el valor es mayor que 0x80, el joystick estÃ¡ en la posiciÃ³n de arriba
-                    
+            //LATAbits.LATA3 = 1;
+                check = (ADRESH >> 6) & 0x3;
+                // Obtenemos el valor del ADC solo si se detecta una alteración en el joystick
+                if (ADRESH > 128) {
+                    //LATAbits.LATA3 = 1;
+                    // Si el valor es mayor que 0x80, el joystick está en la posición de arriba
                     up = 1; // Hay que desplazar la LCD hacia arriba
-                } else if (ADRESH < 0x40) {
-                    //Si el valor es menor que 0x40, el joystick estÃ¡ en la posiciÃ³n de abajo
-                    
+                } else if (ADRESH < 64) {
+                    // Si el valor es menor que 0x40, el joystick está en la posición de abajo
                     down = 1; // Hay que desplazar la LCD hacia abajo
                 } else {
-                    //Si el valor estÃ¡ entre 0x40 y 0x80, el joystick estÃ¡ en la posiciÃ³n central
-                    
+                    //LATAbits.LATA3 = 1;
+                    // Si el valor está entre 0x40 y 0x80, el joystick está en la posición central
                     center = 1; // No hay que hacer nada
                 }
             }
-            status++;
-            break;    
-        case 2:
+            status--;
+            break;
+        /*case 2:
+            up = 0;
+            down = 0;
+            center = 0;
+            status = 0;
+            break;*/
+        /*case 2:
             // Seleccionamos el puerto AN0 (microfono)
             ADCON0bits.CHS0 = 1;
             ADCON0bits.CHS1 = 0;
@@ -68,7 +77,7 @@ void adcMotor(void) {
             }
             flagMicro = 0;
             status = 0;
-            break;     
+            break;*/     
     }
 }    
 
@@ -92,4 +101,6 @@ unsigned char getFlagMicro(void) {
     return flagMicro;
 }
 
-
+void resetUp() {
+    up = 0;
+}

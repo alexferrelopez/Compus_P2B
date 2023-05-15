@@ -3,11 +3,12 @@
 
 void adc_init(void);
 void adcMotor(void);
-char getUp(void);
-char getDown(void);
-char getCenter(void);
-char getValorMicro(void);
-char getFlagMicro(void);
+unsigned char getUp(void);
+unsigned char getDown(void);
+unsigned char getCenter(void);
+unsigned char getValorMicro(void);
+unsigned char getFlagMicro(void);
+void resetUp(void);
 
 
 #endif
