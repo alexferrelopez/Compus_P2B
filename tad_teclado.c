@@ -42,8 +42,8 @@ void teclado_init(void) {
 
     INTCON2bits.RBPU = 0; // Habilitamos las resistencias de pull-up
 
-    timerTeclado = TI_NewTimer(&timerTeclado); //Creamos un timer para el teclado
-    timer1s = TI_NewTimer(&timer1s); //Creamos un timer para el teclado
+    TI_NewTimer(&timerTeclado); //Creamos un timer para el teclado
+    TI_NewTimer(&timer1s); //Creamos un timer para el teclado
 
     state = 0;
     numPulsaciones = 0;
