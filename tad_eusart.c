@@ -1,52 +1,38 @@
 #include <xc.h>
-
 #include "tad_eusart.h"
 
-// Declaraci�n de constantes
-#define BAUD_RATE 32000
-
-static unsigned char state;
-
-// Funci�n para inicializar el EUSART
-void eusartInit(void) {
-    // Configurar los pines de transmisi�n y recepci�n
-    TRISCbits.TRISC6 = 0; // Configurar el pin TX como salida para recibir datos
-    TRISCbits.TRISC7 = 1; // Configurar el pin RX como entrada para enviar datos
-
-    // Configuraci�n del baudrate y del modo as�ncrono
-    TXSTAbits.BRGH = 1;  // High Baudrate Select bit
-    BAUDCONbits.BRG16 = 0; // Modo de 8 bits
-    //SPBRG = ((_XTAL_FREQ/BAUD_RATE)/64)-1;  // Calcular el valor del registro SPBRG
-
-    // Configurar el EUSART
-    TXSTAbits.SYNC = 0; // Modo as�ncrono
-    RCSTAbits.SPEN = 1; // Habilitar el m�dulo EUSART
-    TXSTAbits.TXEN = 1; // Habilitar la transmisi�n de datos
-    RCSTAbits.CREN = 1; // Habilitar la recepci�n de datos
+void initSIO(void) {
+//Pre: -
+//Post: Inicialitza la SIO a 9600bps
+//Assumim que anem a 10MHZ
+    TXSTA = 0x20;   //00100000
+    RCSTA = 0x90;   //10010000
+    BAUDCON = 0;
+    TXSTAbits.BRGH = 1;
+    BAUDCONbits.BRG16 = 0;
+    SPBRG = 64;
+    
 }
 
-// Funci�n para enviar un caracter a trav�s del EUSART
-void eusartSendChar(unsigned char c) {
-    while(!TXSTAbits.TRMT);   // Esperar hasta que se haya completado la transmisi�n anterior
-    TXREG = c;                // Enviar el caracter
+
+char SiCharAvail(void) {
+//Post: returns the number of available characters that are in the reception queue.
+//Retorna -1 if there are no available characters.
+    return(PIR1bits.RCIF == 1 ? 1 : -1);
 }
 
-// Funci�n para recibir un caracter a trav�s del EUSART
-char eusartReceiveChar(void) {
+char SiGetChar(void){
+//Pre: SiCharAvail() returns a number greater than zero.
+//Post: returns and removes the first element from the reception queue.
     return RCREG;
 }
+char SiIsAvailable(void) {
+//Post: returns 1 if the SIO module is available for sending.
+    return TXSTAbits.TRMT;
+}
 
-//esperar a que el canal este disponible, si envio no paso.
-void motorEusart(void) {
-    switch (state) {
-        case 1:
-            /* code */
-            break;
-        case 2:
-            /* code */
-            break;
-        case 3:
-            /* code */
-            break;        
-    }        
+void SiSendChar(char c) {
+//Pre: SiIsAvailable().
+//Post: starts sending the specified character.
+    TXREG = c;
 }
