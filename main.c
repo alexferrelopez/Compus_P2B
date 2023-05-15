@@ -1,11 +1,11 @@
 #include <xc.h>
 
-#include "tad_teclado.h"
 #include "tad_altavoz.h"
 #include "tad_timer.h"
 //#include "tad_eusart.h"
 #include "tad_lcd.h"
-//#include "tad_controller.h"
+#include "tad_controller.h"
+#include "tad_adc.h"
 
 #pragma config OSC = HSPLL //Convertimos el cristal externo de 10MHz en 40MHz
 #pragma config PBADEN = DIG
@@ -30,9 +30,9 @@ void config_interrupts(void) {
 void config_ports(void) {
     TI_Init();
 	teclado_init();
-    
+    controllerInit();
 	altavoz_init();
-    
+    //adc_init();
 	//eusartInit();
 	LcInit(2, 16);
     LcClear();
@@ -43,32 +43,10 @@ void main(void) {
 	config_interrupts();
     config_ports();
     
-    LcGotoXY(0,0);
-    char pos = 0;
-    
     while(1) {
 		tecladoMotor();
-        if (hiHaTecla()) {
-            unsigned char tecla = getTecla();
-            
-            if (tecla == '*')
-            {
-                LcClear();
-                pos = 0;
-            }
-            else{
-                if (haDeSubstituir()) {
-                    pos--;
-                }
-                LcGotoXY(pos,0);
-                LcPutChar(tecla);
-                pos++;
-
-                
-            }
-            setSonidoTecla(getIndexTecla());
-            teclaProcesada();
-        }
         altavozMotor();
+        controllerMotor();
+        //adcMotor();
 	}		
 }
