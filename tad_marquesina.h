@@ -7,5 +7,6 @@
 void marquesinaInit (void);
 void marquesinaMotor(void);
 void clearScreen (void);
-unsigned char printPortString (unsigned char index);
+void startMenu(void);
+void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
 #endif

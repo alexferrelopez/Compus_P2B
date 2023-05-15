@@ -32,7 +32,8 @@ void config_ports(void) {
 	teclado_init();
     controllerInit();
 	altavoz_init();
-    adc_init();
+    marquesinaInit();
+    //adc_init();
 	//eusartInit();
 	LcInit(2, 16);
     LcClear();
@@ -49,38 +50,7 @@ void main(void) {
 		tecladoMotor();
         altavozMotor();
         controllerMotor();
-        adcMotor();
-
-        if (getUp() == 1) {
-            LcGotoXY(0,1);
-            LcPutChar('U');
-            //pos++;
-            resetUp();  
-        } 
-        
-        if (getDown() == 1) {
-            LcGotoXY(0,1);
-            LcPutChar('D');
-            //pos++;
-            resetDown();  
-        }
-        
-        if (getCenter() == 1) {
-            LcGotoXY(0,1);
-            LcPutChar('C');
-            //pos++;
-            resetCenter();  
-        }
-        
-        /*else if (getCenter() == 1) {
-            LcGotoXY(pos,1);
-            LcPutChar('B');
-            pos++;
-        } else if (getDown() == 1) {
-            LcGotoXY(pos,1);
-            LcPutChar('C');
-            pos++;
-        }*/
-
+        //marquesinaMotor();
+        //adcMotor();
 	}		
 }
