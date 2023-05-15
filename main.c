@@ -43,24 +43,30 @@ void main(void) {
 	config_interrupts();
     config_ports();
     
-    LcGotoXY(0,1);
-    LcCursorOff();
+    LcGotoXY(0,0);
     char pos = 0;
     
     while(1) {
 		tecladoMotor();
-        
-        if (getflagTecla() == 1) {
+        if (hiHaTecla()) {
             unsigned char tecla = getTecla();
-            LcPutChar(tecla);
-            pos++;
-            setSonidoTecla(getIndexTecla());
-        }
-        else if (getflagTecla() == 4) {
             
-            LcGotoXY(pos,1);
-            unsigned char tecla = getTecla();
-            LcPutChar(tecla);
+            if (tecla == '*')
+            {
+                LcClear();
+                pos = 0;
+            }
+            else{
+                if (haDeSubstituir()) {
+                    pos--;
+                }
+                LcGotoXY(pos,0);
+                LcPutChar(tecla);
+                pos++;
+
+                setSonidoTecla(getIndexTecla());
+            }
+            teclaProcesada();
         }
         //altavozMotor();
 	}		

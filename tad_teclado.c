@@ -11,10 +11,6 @@
 #define COL0 LATBbits.LATB4
 #define COL1 LATBbits.LATB5
 #define COL2 LATBbits.LATB6
-#define POSSIBLE_TECLA 2
-#define ESPERA_1s   3
-#define TECLA_READY 1
-#define REPLACE_LAST 4
 
 static unsigned char caracteres[12][5] = {
 {'1'}, //1 indice 0
@@ -31,7 +27,7 @@ static unsigned char caracteres[12][5] = {
 {'#'}
 }; //1 indice 11
 
-static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, tecla, indexTecla, ultimoIndiceTecla;
+static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, flagtmp, tecla, indexTecla, ultimoIndiceTecla;
 
 static unsigned long ab;
 
@@ -60,7 +56,6 @@ void teclado_init(void) {
 }
 
 char getTecla(void) {
-    flagTecla = 0;
     return tecla;
 }
 
@@ -68,15 +63,29 @@ char getIndexTecla(void){
     return indexTecla;
 }
 
-char getflagTecla(void){
+char hiHaTecla(void){
+    return flagTecla & 1;
+}
+
+char getFlagTecla(void){
     return flagTecla;
+}
+
+char haDeSubstituir(void){
+    return flagTecla == REPLACE_LAST;
+}
+
+void teclaProcesada(void) {
+    flagTecla = flagTecla & 0xFE;
 }
 
 void tecladoMotor(void) {
     switch (state) {
         case 0: //Barremos la primera columna
-            if (TI_GetTics(timer1s) >= 1000 && flagTecla == ESPERA_1s) {
-                flagTecla = REPLACE_LAST;
+            if (TI_GetTics(timer1s) >= 1000 && (flagTecla & 1) == 0) {
+                indexTecla = 13;
+                ultimoIndiceTecla = 12;
+                numPulsaciones = 0;
             }
             
             COL0 = 0;
@@ -174,10 +183,10 @@ void tecladoMotor(void) {
             if (indexTecla != ultimoIndiceTecla) {
                 numPulsaciones = 0;
                 tecla = caracteres[indexTecla][numPulsaciones];
-                flagTecla = POSSIBLE_TECLA;
+                flagtmp = TECLA_READY;
             } else if (indexTecla == ultimoIndiceTecla) { 
-                TI_ResetTics(timer1s);
-                flagTecla = ESPERA_1s;
+                
+                flagtmp = REPLACE_LAST;
                 numPulsaciones++;
                 if ((indexTecla == 0 || indexTecla == 9 || indexTecla == 11) && numPulsaciones == 1) {
                     numPulsaciones = 0;
@@ -190,6 +199,7 @@ void tecladoMotor(void) {
                 }
                 tecla = caracteres[indexTecla][numPulsaciones];
             }
+            TI_ResetTics(timer1s);
             ultimoIndiceTecla = indexTecla;
             state++;
             break;
@@ -204,7 +214,7 @@ void tecladoMotor(void) {
             if (TI_GetTics(timerTeclado) > 16) {
                 if (ROW0 == 1 && ROW1 == 1 && ROW2 == 1 && ROW3 == 1) {
                     state = 0;
-                    if (flagTecla == POSSIBLE_TECLA) flagTecla = TECLA_READY;
+                    flagTecla = flagtmp;
                 }  else {
                     state--;
                 }
