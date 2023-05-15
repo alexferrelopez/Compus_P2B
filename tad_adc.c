@@ -23,6 +23,7 @@ void adc_init(void) {
 void adcMotor(void) {
     switch(status) {
         case 0:
+        
             // seleccionamos el puerto AN0 (eje Y del joystick)
             ADCON0bits.CHS0 = 0;
             ADCON0bits.CHS1 = 0;
@@ -38,17 +39,17 @@ void adcMotor(void) {
             if (ADCON0bits.GODONE == 0) {
             //LATAbits.LATA3 = 1;
                 check = (ADRESH >> 6) & 0x3;
-                // Obtenemos el valor del ADC solo si se detecta una alteración en el joystick
+                // Obtenemos el valor del ADC solo si se detecta una alteraciï¿½n en el joystick
                 if (ADRESH > 128) {
                     //LATAbits.LATA3 = 1;
-                    // Si el valor es mayor que 0x80, el joystick está en la posición de arriba
+                    // Si el valor es mayor que 0x80, el joystick estï¿½ en la posiciï¿½n de arriba
                     up = 1; // Hay que desplazar la LCD hacia arriba
                 } else if (ADRESH < 64) {
-                    // Si el valor es menor que 0x40, el joystick está en la posición de abajo
+                    // Si el valor es menor que 0x40, el joystick estï¿½ en la posiciï¿½n de abajo
                     down = 1; // Hay que desplazar la LCD hacia abajo
                 } else {
                     //LATAbits.LATA3 = 1;
-                    // Si el valor está entre 0x40 y 0x80, el joystick está en la posición central
+                    // Si el valor estï¿½ entre 0x40 y 0x80, el joystick estï¿½ en la posiciï¿½n central
                     center = 1; // No hay que hacer nada
                 }
             }

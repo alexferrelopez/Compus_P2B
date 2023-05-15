@@ -10,5 +10,4 @@ unsigned char getValorMicro(void);
 unsigned char getFlagMicro(void);
 void resetUp(void);
 
-
 #endif
