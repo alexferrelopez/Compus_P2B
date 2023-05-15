@@ -32,21 +32,55 @@ void config_ports(void) {
 	teclado_init();
     controllerInit();
 	altavoz_init();
-    //adc_init();
+    adc_init();
 	//eusartInit();
 	LcInit(2, 16);
     LcClear();
 }
 
 void main(void) {
-    TRISAbits.TRISA3 = 0;
+    //TRISAbits.TRISA3 = 0;
 	config_interrupts();
     config_ports();
+    
+    unsigned char pos = 0;
     
     while(1) {
 		tecladoMotor();
         altavozMotor();
         controllerMotor();
-        //adcMotor();
+        adcMotor();
+
+        if (getUp() == 1) {
+            LcGotoXY(0,1);
+            LcPutChar('U');
+            //pos++;
+            resetUp();  
+        } 
+        
+        if (getDown() == 1) {
+            LcGotoXY(0,1);
+            LcPutChar('D');
+            //pos++;
+            resetDown();  
+        }
+        
+        if (getCenter() == 1) {
+            LcGotoXY(0,1);
+            LcPutChar('C');
+            //pos++;
+            resetCenter();  
+        }
+        
+        /*else if (getCenter() == 1) {
+            LcGotoXY(pos,1);
+            LcPutChar('B');
+            pos++;
+        } else if (getDown() == 1) {
+            LcGotoXY(pos,1);
+            LcPutChar('C');
+            pos++;
+        }*/
+
 	}		
 }

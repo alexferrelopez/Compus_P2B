@@ -5,7 +5,7 @@
 #define ADCON1_CONFIG 0x0D
 #define ADCON2_CONFIG 0
 
-unsigned char ADCON0_CONFIG = 1, up, down, center, valorMicro, flagMicro, status, check, move;
+unsigned char ADCON0_CONFIG = 1, up, down, center, valorMicro, flagMicro, status;
 
 void adc_init(void) {
     ADCON1 = ADCON1_CONFIG;
@@ -16,7 +16,6 @@ void adc_init(void) {
     up = 0;
     down = 0;
     center = 0;
-    move = 0;
     flagMicro = 0;
 }
 
@@ -31,44 +30,24 @@ void adcMotor(void) {
             break;
         case 1:
             TRISAbits.TRISA3 = 0;
-            TRISEbits.TRISE1 = 0;
-            //LATAbits.LATA3 = 1;
+            TRISAbits.TRISA4 = 0;
             if (ADCON0bits.GODONE == 0) {
-            //LATAbits.LATA3 = 1;
-                //check = (ADRESH); //>> 4) & 0x7;
-                // Obtenemos el valor del ADC solo si se detecta una alteraci�n en el joystick
-                //move = check;
-                /*if (ADRESH < 100) {
+                if (ADRESH > 200) {
                     LATAbits.LATA3 = 1;
-                } else {
-                    LATAbits.LATA4 = 1;
-                }*/
-                
-                if (ADRESH > 150) {
-                    LATAbits.LATA3 = 1;
-                    LATEbits.LATE1= 0;
+                    LATAbits.LATA4 = 0;
                     up = 1;
-                } else if (ADRESH < 100) {
-                    LATEbits.LATE1 = 1;
+                } else if (ADRESH < 50) {
+                    LATAbits.LATA4 = 1;
                     LATAbits.LATA3 = 0;
                     down = 1;
                 } else {
                     LATAbits.LATA3 = 0;
-                    LATEbits.LATE1 = 0;
+                    LATAbits.LATA4 = 0;
                     center = 1;
                 }
-                /*if (ADRESH >= 100 && ADRESH <= 149) {
-                    center = 1;
-                }*/
                 status--;
             }
         break;
-        /*case 2:
-            up = 0;
-            down = 0;
-            center = 0;
-            status = 0;
-            break;*/
         /*case 2:
             // Seleccionamos el puerto AN0 (microfono)
             ADCON0bits.CHS0 = 1;
@@ -110,6 +89,14 @@ unsigned char getFlagMicro(void) {
     return flagMicro;
 }
 
-void resetUp() {
+void resetUp(void) {
     up = 0;
+}
+
+void resetDown(void) {
+    down = 0;
+}
+
+void resetCenter(void) {
+    center = 0;
 }
