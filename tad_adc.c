@@ -5,8 +5,7 @@
 #define ADCON1_CONFIG 0x0D
 #define ADCON2_CONFIG 0x82
 
-unsigned char valorMicro, flagMicro, status;
-int position;
+unsigned char valorMicro, flagMicro, status, position, lastPosition;
 
 void adc_init(void) {
     ADCON1 = ADCON1_CONFIG;
@@ -17,6 +16,7 @@ void adc_init(void) {
     TRISAbits.TRISA4 = 0; // Configuramos el pin de entrada del ADC para el micro
     status = 0;
     position = 0;
+    lastPosition = 0;
     flagMicro = 0;
 }
 
@@ -32,17 +32,7 @@ void adcMotor(void) {
         case 1:
             if (ADCON0bits.GODONE == 0) {
                 position = ADRESH;
-                if (position == 0) {
-                    LATAbits.LATA3 = 1;
-                    LATAbits.LATA4 = 0;
-                } else if (position == 3){
-                    LATAbits.LATA3 = 0;
-                    LATAbits.LATA4 = 1;
-                }
-                else {
-                    LATAbits.LATA3 = 0;
-                    LATAbits.LATA4 = 0;
-                }
+                if (position == 2) position--;
                 status--;
             }
         break;
@@ -67,8 +57,14 @@ void adcMotor(void) {
     }
 }    
 
-int getPosicion(void) {
-    return position;
+int getJoystickMove(void) {
+    unsigned char result;
+    
+    position != lastPosition ? (result = position) : (result = DONT_MOVE);
+    
+    lastPosition = position;
+    
+    return result;
 }
 
 unsigned char getValorMicro(void) {

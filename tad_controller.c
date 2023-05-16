@@ -1,6 +1,8 @@
 #include "tad_controller.h"
+#include "tad_SIO.h"
+#include "tad_adc.h"
 
-static unsigned char state, nameCharCount;
+static unsigned char state, nameCharCount, menuIndex;
 static char portName[3];
 static unsigned char PortNameStr[] = "PORT NAME:";
 
@@ -8,6 +10,20 @@ void controllerInit (void) {
     state = 0;
     nameCharCount = 0;
     LcGotoXY(0,0);
+}
+
+void nextMenuOption () {
+    if (menuIndex < 4) {
+        menuIndex++;
+        clearScreen();
+    }
+}
+
+void previousMenuOption () {
+    if (menuIndex > 0) {
+        menuIndex--;
+        clearScreen();
+    }
 }
 
 void controllerMotor(void) {
@@ -24,7 +40,6 @@ void controllerMotor(void) {
                     resetPosTecla();
                 } else if (tecla == '#'){
                     state++;
-                    startMenu();
                 }
                 else {
                     if (pos > 2) pos = 2;
@@ -36,12 +51,33 @@ void controllerMotor(void) {
                     teclaProcesada();
             }
             break;
-        case 2: //MENU 
-            
-            
+        case 1: //START COMMS
+            if (SiIsAvailable()) {
+                SiSendChar('T');
+                state++;
+            }
+            break;
+        case 2: //WAIT FOR ANSWER
+            if (SiCharAvail()) {
+                if (SiGetChar() == 'K') state++;
+            }
             break;
         case 3:
-            /* code */
-            break;        
+            if (SiIsAvailable()) {
+                static unsigned char charIndex = 0;
+                if (charIndex == 3) {
+                    SiSendChar('\0');
+                    state ++;
+                    startMenu();
+                    //START THE TIME COUNTER?¿
+                } else {
+                    SiSendChar(portName[charIndex]);
+                    charIndex++;
+                }
+            }
+         case 4:
+            getJoystickMove();
+        /* code */
+        break; 
     }    
 }

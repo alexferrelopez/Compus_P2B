@@ -2,7 +2,7 @@
 
 #include "tad_altavoz.h"
 #include "tad_timer.h"
-//#include "tad_eusart.h"
+#include "tad_SIO.h"
 #include "tad_lcd.h"
 #include "tad_controller.h"
 #include "tad_adc.h"
@@ -34,7 +34,7 @@ void config_ports(void) {
 	altavoz_init();
     marquesinaInit();
     adc_init();
-	//eusartInit();
+	initSIO();
 	LcInit(2, 16);
     LcClear();
 }

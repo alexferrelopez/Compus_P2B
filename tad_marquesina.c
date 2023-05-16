@@ -2,7 +2,7 @@
 
 #include "tad_marquesina.h"
 
-static unsigned char menuIndex;
+static unsigned char stringSelector;
 static RowState rowStates[2];
 static unsigned char PortNameStr[] = "PORT NAME:";
 static unsigned char MenuOp1[] = "1. Start Recording ";
@@ -55,25 +55,15 @@ void clearScreen (void) {
 }
 
 void startMenu(void) {
-    menuIndex = 1;
+    stringSelector = 1;
 }
 
-void nextOp () {
-    if (menuIndex < 4) {
-        menuIndex++;
-        clearScreen();
-    }
-}
-
-void previousOp () {
-    if (menuIndex > 0) {
-        menuIndex--;
-        clearScreen();
-    }
+void setMenuOption (unsigned char index) {
+    stringSelector = index;
 }
 
 void marquesinaMotor(void){
-    switch (menuIndex) {
+    switch (stringSelector) {
         case 0:// PORT NAME
             printPortString(PortNameStr, sizeof(PortNameStr) - 1, 0);
             break;
