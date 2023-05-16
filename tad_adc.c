@@ -3,7 +3,7 @@
 #include "tad_adc.h"
 
 #define ADCON1_CONFIG 0x0D
-#define ADCON2_CONFIG 0
+#define ADCON2_CONFIG 0x82
 
 unsigned char valorMicro, flagMicro, status;
 int position;
@@ -13,6 +13,8 @@ void adc_init(void) {
     ADCON2 = ADCON2_CONFIG;
     TRISAbits.TRISA0 = 1; // Configuramos el pin de entrada del ADC para el joystick
     TRISAbits.TRISA1 = 1; // Configuramos el pin de entrada del ADC para el micro
+    TRISAbits.TRISA3 = 0; // Configuramos el pin de entrada del ADC para el joystick
+    TRISAbits.TRISA4 = 0; // Configuramos el pin de entrada del ADC para el micro
     status = 0;
     position = 0;
     flagMicro = 0;
@@ -28,22 +30,18 @@ void adcMotor(void) {
             status++;
             break;
         case 1:
-        TRISAbits.TRISA3 = 0; // Configuramos el pin de entrada del ADC para el joystick
-        TRISAbits.TRISA4 = 0; // Configuramos el pin de entrada del ADC para el micro
-
             if (ADCON0bits.GODONE == 0) {
-                if (ADRESH > 150) {
+                position = ADRESH;
+                if (position == 0) {
                     LATAbits.LATA3 = 1;
                     LATAbits.LATA4 = 0;
-                    position = 1;
-                } else if (ADRESH >= 128 && ADRESH < 140) {
+                } else if (position == 3){
                     LATAbits.LATA3 = 0;
                     LATAbits.LATA4 = 1;
-                    position = -1;
-                } else {
+                }
+                else {
                     LATAbits.LATA3 = 0;
                     LATAbits.LATA4 = 0;
-                    position = 0;
                 }
                 status--;
             }

@@ -33,7 +33,7 @@ void config_ports(void) {
     controllerInit();
 	altavoz_init();
     marquesinaInit();
-    //adc_init();
+    adc_init();
 	//eusartInit();
 	LcInit(2, 16);
     LcClear();
@@ -44,13 +44,11 @@ void main(void) {
 	config_interrupts();
     config_ports();
     
-    unsigned char pos = 0;
-    
     while(1) {
 		tecladoMotor();
         altavozMotor();
         controllerMotor();
-        //marquesinaMotor();
-        //adcMotor();
+        marquesinaMotor();
+        adcMotor();
 	}		
 }

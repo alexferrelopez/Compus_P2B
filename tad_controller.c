@@ -13,29 +13,32 @@ void controllerInit (void) {
 void controllerMotor(void) {
      switch (state) { //TOWER SELECTION
         case 0:
-            printPortString(PortNameStr, sizeof(PortNameStr), 0);
-            unsigned char pos = getPosTecla();
+            //printPortString(PortNameStr, sizeof(PortNameStr), 0);
+            
             if (hiHaTecla()) {
-            unsigned char tecla = getTecla();
-            if (tecla == '*')
-            {
-                clearScreen();
-                resetPosTecla();
-            } else if (tecla == '#'){
-                state++;
-            }
-            else{
-                if (pos > 2) pos = 2;
-                LcGotoXY(pos,1);
-                portName[pos] = tecla;
-                LcPutChar(tecla);
-            }
-                setSonidoTecla(getIndexTecla());
-                teclaProcesada();
+                unsigned char pos = getPosTecla();
+                unsigned char tecla = getTecla();
+                if (tecla == '*')
+                {
+                    clearScreen();
+                    resetPosTecla();
+                } else if (tecla == '#'){
+                    state++;
+                    startMenu();
+                }
+                else {
+                    if (pos > 2) pos = 2;
+                    LcGotoXY(pos,1);
+                    portName[pos] = tecla;
+                    LcPutChar(tecla);
+                }
+                    setSonidoTecla(getIndexTecla());
+                    teclaProcesada();
             }
             break;
         case 2: //MENU 
-            /* code */
+            
+            
             break;
         case 3:
             /* code */

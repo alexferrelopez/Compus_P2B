@@ -4,6 +4,14 @@
 #include "tad_timer.h"
 #include "tad_lcd.h"
 
+typedef struct RowState {
+    unsigned char basePos;
+    unsigned char count;
+    unsigned char stringIndex;
+    unsigned char screenXPos;
+    unsigned char marquesinaTimer;
+} RowState;
+
 void marquesinaInit (void);
 void marquesinaMotor(void);
 void clearScreen (void);
