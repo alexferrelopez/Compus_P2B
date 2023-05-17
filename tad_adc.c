@@ -59,10 +59,14 @@ void adcMotor(void) {
     }
 }    
 
-signed char getJoystickMove(void) {
-    signed char temp = (position != lastPosition ? position : DONT_MOVE);
+unsigned char joystickIsDiffPos () {
+    unsigned char result = ((position != lastPosition && position != CENTER) ? 1 : 0);
     lastPosition = position;
-    return temp;
+    return result;
+}
+
+signed char getJoystickMove(void) {
+    return position;
 }
 
 unsigned char getValorMicro(void) {
