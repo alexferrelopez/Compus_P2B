@@ -44,6 +44,8 @@ void main(void) {
 	config_interrupts();
     config_ports();
     
+    LcCursorOff();
+    
     while(1) {
 		tecladoMotor();
         altavozMotor();

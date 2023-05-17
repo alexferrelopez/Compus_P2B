@@ -5,7 +5,8 @@
 #define ADCON1_CONFIG 0x0D
 #define ADCON2_CONFIG 0x82
 
-unsigned char valorMicro, flagMicro, status, position, lastPosition;
+static unsigned char valorMicro, flagMicro, status;
+static signed char lastPosition, position;
 
 void adc_init(void) {
     ADCON1 = ADCON1_CONFIG;
@@ -31,8 +32,9 @@ void adcMotor(void) {
             break;
         case 1:
             if (ADCON0bits.GODONE == 0) {
-                position = ADRESH;
-                if (position == 2) position--;
+                position = (signed char) ADRESH;
+                if (position < 2) position --;
+                else position -= 2;
                 status--;
             }
         break;
@@ -57,14 +59,10 @@ void adcMotor(void) {
     }
 }    
 
-int getJoystickMove(void) {
-    unsigned char result;
-    
-    position != lastPosition ? (result = position) : (result = DONT_MOVE);
-    
+signed char getJoystickMove(void) {
+    signed char temp = (position != lastPosition ? position : DONT_MOVE);
     lastPosition = position;
-    
-    return result;
+    return temp;
 }
 
 unsigned char getValorMicro(void) {

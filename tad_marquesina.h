@@ -6,7 +6,6 @@
 
 typedef struct RowState {
     unsigned char basePos;
-    unsigned char count;
     unsigned char stringIndex;
     unsigned char screenXPos;
     unsigned char marquesinaTimer;
@@ -16,5 +15,6 @@ void marquesinaInit (void);
 void marquesinaMotor(void);
 void clearScreen (void);
 void startMenu(void);
+void setMenuOption (unsigned char index);
 void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
 #endif

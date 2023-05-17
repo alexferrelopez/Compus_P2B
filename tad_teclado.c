@@ -2,7 +2,6 @@
 
 #include "tad_teclado.h"
 #include "tad_timer.h"
-#include "tad_altavoz.h"
 
 #define ROW0 PORTBbits.RB0
 #define ROW1 PORTBbits.RB1
@@ -50,8 +49,8 @@ void teclado_init(void) {
     state = 0;
     numPulsaciones = 0;
     flagTecla = 0;
-    indexTecla = 13;
-    ultimoIndiceTecla = 13;
+    indexTecla = 12;
+    ultimoIndiceTecla = 12;
     posTecla = 0;
     letterIsSet = 1;
 
@@ -92,7 +91,7 @@ void tecladoMotor(void) {
     switch (state) {
         case 0: //Barremos la primera columna
             if (TI_GetTics(timer1s) >= 1000 && !letterIsSet) {
-                indexTecla = 13;
+                indexTecla = 12;
                 ultimoIndiceTecla = 12;
                 numPulsaciones = 0;
                 letterIsSet = 1;

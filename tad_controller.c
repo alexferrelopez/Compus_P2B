@@ -2,35 +2,32 @@
 #include "tad_SIO.h"
 #include "tad_adc.h"
 
-static unsigned char state, nameCharCount, menuIndex;
+static unsigned char state, nameCharCount;
 static char portName[3];
+static signed char menuIndex;
 static unsigned char PortNameStr[] = "PORT NAME:";
 
 void controllerInit (void) {
     state = 0;
     nameCharCount = 0;
     LcGotoXY(0,0);
+    menuIndex = 0;
 }
 
-void nextMenuOption () {
-    if (menuIndex < 4) {
-        menuIndex++;
-        clearScreen();
-    }
-}
-
-void previousMenuOption () {
-    if (menuIndex > 0) {
+void changeMenuOption (signed char move) {
+    menuIndex += move;
+    if (menuIndex > 3) {
         menuIndex--;
-        clearScreen();
+    } else if (menuIndex < 0) {
+        menuIndex++;
     }
+    clearScreen();
+    setMenuOption((unsigned char) menuIndex);
 }
 
 void controllerMotor(void) {
      switch (state) { //TOWER SELECTION
-        case 0:
-            //printPortString(PortNameStr, sizeof(PortNameStr), 0);
-            
+        case 0: 
             if (hiHaTecla()) {
                 unsigned char pos = getPosTecla();
                 unsigned char tecla = getTecla();
@@ -47,8 +44,8 @@ void controllerMotor(void) {
                     portName[pos] = tecla;
                     LcPutChar(tecla);
                 }
-                    setSonidoTecla(getIndexTecla());
-                    teclaProcesada();
+                setSonidoTecla(getIndexTecla());
+                teclaProcesada();
             }
             break;
         case 1: //START COMMS
@@ -76,7 +73,8 @@ void controllerMotor(void) {
                 }
             }
          case 4:
-            getJoystickMove();
+            //changeMenuOption(getJoystickMove());
+            
         /* code */
         break; 
     }    
