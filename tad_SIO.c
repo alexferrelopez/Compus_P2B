@@ -3,14 +3,13 @@
 
 void initSIO(void) {
 //Pre: -
-//Post: Inicialitza la SIO a 9600bps
-//Assumim que anem a 10MHZ
+//Post: Inicialitza la SIO a 57600 bps (40Mhz)
     TXSTA = 0x20;   //00100000
     RCSTA = 0x90;   //10010000
     BAUDCON = 0;
     TXSTAbits.BRGH = 1;
     BAUDCONbits.BRG16 = 0;
-    SPBRG = 64;
+    SPBRG = 42;
 }
 
 

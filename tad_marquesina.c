@@ -43,10 +43,10 @@ void printPortString (unsigned char *menuStrHandle, unsigned char strLen, unsign
         LcPutChar(menuStrHandle[pos]);
         rowStates[row].screenXPos++;
         rowStates[row].stringIndex++;
-        if (rowStates[row].screenXPos > 16) rowStates[row].screenXPos = 0;
-        if (rowStates[row].stringIndex == strLen) {
-            rowStates[row].stringIndex = 0; 
+        if (rowStates[row].screenXPos > 16 || 
+                (rowStates[row].stringIndex == strLen && strLen <= 16)) {
             rowStates[row].screenXPos = 0;
+            rowStates[row].stringIndex = 0;
         }
     } 
 }
@@ -64,6 +64,7 @@ void startMenu(void) {
 
 void setMenuOption (unsigned char index) {
     stringSelector = index+1;
+    clearScreen();
 }
 
 void incrementaColumna(void) {

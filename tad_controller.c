@@ -17,11 +17,10 @@ void controllerInit (void) {
 void changeMenuOption (signed char move) {
     menuIndex += move;
     if (menuIndex > 3) {
-        menuIndex--;
+        menuIndex = 3;
     } else if (menuIndex < 0) {
-        menuIndex++;
+        menuIndex = 0;
     }
-    clearScreen();
     setMenuOption((unsigned char) menuIndex);
 }
 
@@ -43,6 +42,9 @@ void controllerMotor(void) {
                     LcGotoXY(pos,1);
                     portName[pos] = tecla;
                     LcPutChar(tecla);
+                    nameCharCount = pos+1;
+                    LcGotoXY(4,1);
+                    LcPutChar(nameCharCount + '0');
                 }
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();
@@ -55,16 +57,18 @@ void controllerMotor(void) {
             }
             break;
         case 2: //WAIT FOR ANSWER
-            if (SiCharAvail()) {
-                if (SiGetChar() == 'K') state++;
+            if (SiCharAvail() > 0) {
+                if (SiGetChar() == 'K') {
+                    state++;
+                };
             }
             break;
         case 3:
             if (SiIsAvailable()) {
                 static unsigned char charIndex = 0;
-                if (charIndex == 3) {
+                if (charIndex == nameCharCount) {
                     SiSendChar('\0');
-                    state ++;
+                    state++;
                     startMenu();
                     //START THE TIME COUNTER?¿
                 } else {
@@ -73,7 +77,10 @@ void controllerMotor(void) {
                 }
             }
          case 4:
-            //changeMenuOption(getJoystickMove());
+            if (joystickIsDiffPos()) {
+                changeMenuOption(getJoystickMove());
+            }
+            
             
         /* code */
         break; 
