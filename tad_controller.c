@@ -1,6 +1,7 @@
 #include "tad_controller.h"
 #include "tad_SIO.h"
 #include "tad_adc.h"
+#include "tad_hora.h"
 
 static unsigned char state, nameCharCount;
 static char portName[3];
@@ -72,7 +73,8 @@ void controllerMotor(void) {
                     setNameCharCount(nameCharCount);
                     state++;
                     startMenu();
-                    //START THE TIME COUNTER?¿
+                    //START THE TIME COUNTER?ï¿½
+                    startHora();
                 } else {
                     SiSendChar(portName[charIndex]);
                     setGoobyeName(charIndex, portName[charIndex]);

@@ -40,7 +40,7 @@ void printPortString (unsigned char *menuStrHandle, unsigned char strLen, unsign
         TI_ResetTics(rowStates[row].marquesinaTimer);
         
         LcGotoXY(rowStates[row].screenXPos, row);
-       
+        
         unsigned char pos = strLen > 16 ? 
             (rowStates[row].stringIndex + rowStates[row].basePos) : rowStates[row].stringIndex;
 
@@ -124,6 +124,9 @@ void marquesinaMotor(void){
             break;
         case 8://ENTER OP4
             printPortString((unsigned char *) OP4, sizeof(OP4) - 1, 0);
+            // Mostrar la hora actual
+            unsigned char Hora[] = getHora();
+            printPortStrinf((unsigned char *) Hora, sizeof(Hora) - 1, 1);
             break;
         case 9://ENTER OP5
             printPortString(OP5, 9 + nameCharCount - 1, 0);
