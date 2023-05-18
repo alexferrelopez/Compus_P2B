@@ -98,6 +98,7 @@ void controllerMotor(void) {
                         state = 8;
                     } else if (menuIndex == 4) {
                         state = 9;
+                        TI_ResetTics(timerController);
                     }
                 }
                 setSonidoTecla(getIndexTecla());
@@ -156,8 +157,11 @@ void controllerMotor(void) {
             break;    
         case 9:
             // Reiniciamos el tiempo de comunicacion con la torre de control.
-            resetClock();
-            state = 0;
+            if (TI_GetTics(timerController) > 2000) {
+                resetClock();
+                state = 0;
+                TI_ResetTics(timerController);
+            }
             break;    
     }    
 }
