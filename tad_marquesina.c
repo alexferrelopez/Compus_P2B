@@ -129,7 +129,7 @@ void marquesinaMotor(void){
             printPortStrinf((unsigned char *) Hora, sizeof(Hora) - 1, 1);
             break;
         case 9://ENTER OP5
-            printPortString(OP5, 9 + nameCharCount - 1, 0);
+            printPortString(OP5, 9 + nameCharCount, 0);
             break;
     }
     

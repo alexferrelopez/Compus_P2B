@@ -9,7 +9,6 @@
 void teclado_init(void);
 void tecladoMotor(void);
 char getTecla(void);
-char getFlagTecla(void);
 char getIndexTecla(void);
 char hiHaTecla(void);
 void teclaProcesada(void);

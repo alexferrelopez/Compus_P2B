@@ -73,7 +73,7 @@ void controllerMotor(void) {
                     setNameCharCount(nameCharCount);
                     state++;
                     startMenu();
-                    //START THE TIME COUNTER?�
+                    //START THE TIME COUNTER?
                     startHora();
                 } else {
                     SiSendChar(portName[charIndex]);

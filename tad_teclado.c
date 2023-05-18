@@ -70,10 +70,6 @@ char hiHaTecla(void){
     return flagTecla & 1;
 }
 
-char getFlagTecla(void){
-    return flagTecla;
-}
-
 void teclaProcesada(void) {
     lastFlag = flagTecla;
     flagTecla = 0;
