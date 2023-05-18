@@ -5,7 +5,7 @@
 
 //#include "tad_marquesina.h"
 
-static unsigned char status, clock[5]; 
+static unsigned char status, clock[5], timerHora; 
 
 void hora_init(void) {
     TI_NewTimer(&timerHora);
@@ -24,7 +24,7 @@ void startHora(void) {
 }
 
 unsigned char* getHora(void) {
-    return (unsigned char*)clock;
+    return &clock;
 }
 
 void horaMotor() {

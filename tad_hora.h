@@ -2,8 +2,9 @@
 #define _HORA_H_
 
 void hora_init(void);
+void startHora(void);
 void horaMotor(void);
-void setHora(unsgined char c);
+void setHora(unsigned char c);
 unsigned char* getHora(void);
 
 #endif

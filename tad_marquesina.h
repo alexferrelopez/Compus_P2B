@@ -3,6 +3,7 @@
 
 #include "tad_timer.h"
 #include "tad_lcd.h"
+#include "tad_hora.h"
 
 typedef struct RowState {
     unsigned char basePos;
