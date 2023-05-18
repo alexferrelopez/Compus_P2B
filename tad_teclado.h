@@ -14,5 +14,6 @@ char hiHaTecla(void);
 void teclaProcesada(void);
 unsigned char getPosTecla (void);
 void resetPosTecla (void);
+unsigned char getNumber(void);
 
 #endif

@@ -1,7 +1,6 @@
 #include <xc.h>
 
 #include "tad_hora.h"
-#include "tad_timer.h"
 
 //#include "tad_marquesina.h"
 
@@ -25,6 +24,13 @@ void startHora(void) {
 
 unsigned char* getHora(void) {
     return clock;
+}
+
+void setHora(unsigned char* hora) {
+    clock[0] = hora[0];
+    clock[1] = hora[1];
+    clock[3] = hora[3];
+    clock[4] = hora[4];
 }
 
 void horaMotor() {

@@ -12,19 +12,19 @@
 #define COL2 LATBbits.LATB6
 
 static unsigned char caracteres[12][5] = {
-{'1'}, //1 indice 0
-{'A','B','C','2'}, //2 indice 1
-{'D','E','F','3'}, //2 indice 2
-{'G','H','I','4'}, //2 indice 3
-{'J','K','L','5'}, //2 indice 4
-{'M','N','O','6'}, //2 indice 5
-{'P','Q','R','S','7'}, //3 indice 6
-{'T','U','V','8'}, //2 indice 7
-{'W','X','Y','Z','9'}, //3 indice 8
-{'*'}, //1 indice 9
-{'0',' '}, //4 indice 10
+{'1'},
+{'A','B','C','2'}, 
+{'D','E','F','3'}, 
+{'G','H','I','4'}, 
+{'J','K','L','5'}, 
+{'M','N','O','6'}, 
+{'P','Q','R','S','7'}, 
+{'T','U','V','8'}, 
+{'W','X','Y','Z','9'}, 
+{'*'}, 
+{'0',' '}, 
 {'#'}
-}; //1 indice 11
+}; 
 
 static unsigned char state, timerTeclado, timer1s, numPulsaciones, flagTecla, lastFlag,
         flagtmp, tecla, indexTecla, ultimoIndiceTecla, posTecla, letterIsSet;
@@ -64,6 +64,16 @@ char getTecla(void) {
 
 char getIndexTecla(void){
     return indexTecla;
+}
+
+unsigned char getNumber(void) {
+    if (indexTecla == 0 || indexTecla > 8){
+        return caracteres[indexTecla][0];
+    } else if (indexTecla == 6 || indexTecla == 8) {
+        return caracteres[indexTecla][4];
+    } else {
+        return caracteres[indexTecla][3];
+    }
 }
 
 char hiHaTecla(void){

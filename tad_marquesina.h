@@ -21,4 +21,7 @@ void enterOption (signed char index);
 void setNameCharCount(unsigned char charCount);
 void setGoobyeName (unsigned char index, char character);
 void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
+void setCharClock(unsigned char character, unsigned char index);
+unsigned char* getNewHora(void);
+
 #endif

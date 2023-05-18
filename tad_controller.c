@@ -8,7 +8,7 @@ static char portName[3];
 static signed char menuIndex;
 
 void controllerInit (void) {
-    state = 4;
+    state = 0;
     nameCharCount = 0;
     LcGotoXY(0,0);
     menuIndex = 0;
@@ -25,7 +25,7 @@ void changeMenuOption (signed char move) {
 }
 
 void controllerMotor(void) {
-     switch (state) { //TOWER SELECTION
+    switch (state) { //TOWER SELECTION
         case 0: 
             if (hiHaTecla()) {
                 unsigned char pos = getPosTecla();
@@ -81,23 +81,42 @@ void controllerMotor(void) {
                     charIndex++;
                 }
             }
-         case 4: //SHOW MENU OPTIONS WAITING FOR '#'
+        case 4: //SHOW MENU OPTIONS WAITING FOR '#'
             if (joystickIsDiffPos()) {
                 changeMenuOption(getJoystickMove());
             }
+            
             if (hiHaTecla()) {
                 unsigned char tecla = getTecla();
-                if (tecla == '#'){
+                if (tecla == '#') {
                     enterOption(menuIndex);
+                    if (menuIndex == 2) {
+                        state = 7;
+                    }
                 }
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();
             }
-         case 5:
-             
-            
-            
-        /* code */
-        break; 
+        case 7:
+            if (hiHaTecla()) {
+                static unsigned char indiceModifHora = 0;
+                unsigned char tecla = getNumber();
+                if (tecla == '*') {
+                    startMenu();
+                    state = 4;
+                } else if (tecla == '#') {
+                    // Guardar como hora actual
+                    setHora(getNewHora());
+                    indiceModifHora = 0;
+                    startMenu();
+                } else if (indiceModifHora < 5) {
+                    if (indiceModifHora == 2) indiceModifHora++;
+                    
+                    setCharClock(tecla, indiceModifHora);
+                    indiceModifHora++;
+                }
+                teclaProcesada();
+            }
+            break; 
     }    
 }

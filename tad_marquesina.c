@@ -15,6 +15,7 @@ static const unsigned char OP2_2[] = "PLAYING...";
 static const unsigned char OP3[] = "MODIFY TIME:";
 static const unsigned char OP4[] = "CURRENT TIME:";
 unsigned char OP5[13] = "bye bye <n>!";
+static unsigned char clock[6] = "MM:SS";
 
 void resetRowStates (void) {
     rowStates[0].basePos = rowStates[0].screenXPos = rowStates[0].stringIndex = 0;
@@ -28,6 +29,10 @@ void marquesinaInit (void) {
     TI_NewTimer(&rowStates[1].marquesinaTimer);
     TI_NewTimer(&timer1s);
     resetRowStates();
+}
+
+unsigned char* getNewHora(void) {
+    return clock;
 }
 
 void printPortString (unsigned char *menuStrHandle, unsigned char strLen, unsigned char row) {
@@ -91,6 +96,10 @@ void setGoobyeName (unsigned char index, char character) {
     OP5[8+index] = character;
 }
 
+void setCharClock (unsigned char newChar, unsigned char index) {
+    clock[index] = newChar;
+}
+
 void marquesinaMotor(void){
     if (TI_GetTics(timer1s) >= 1000) incrementaColumna();
     switch (stringSelector) {
@@ -121,6 +130,7 @@ void marquesinaMotor(void){
             break;
         case 7://ENTER OP3
             printPortString((unsigned char *) OP3, sizeof(OP4) - 1, 0);
+            printPortString(clock, 5, 1);
             break;
         case 8://ENTER OP4
             printPortString((unsigned char *) OP4, sizeof(OP4) - 1, 0);
