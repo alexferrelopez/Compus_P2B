@@ -5,7 +5,6 @@
 static unsigned char state, nameCharCount;
 static char portName[3];
 static signed char menuIndex;
-static unsigned char PortNameStr[] = "PORT NAME:";
 
 void controllerInit (void) {
     state = 0;
@@ -16,8 +15,8 @@ void controllerInit (void) {
 
 void changeMenuOption (signed char move) {
     menuIndex += move;
-    if (menuIndex > 3) {
-        menuIndex = 3;
+    if (menuIndex > 4) {
+        menuIndex = 4;
     } else if (menuIndex < 0) {
         menuIndex = 0;
     }
@@ -63,22 +62,34 @@ void controllerMotor(void) {
                 };
             }
             break;
-        case 3:
+        case 3: //SEND THE NAME WE HAVE SAVED
             if (SiIsAvailable()) {
                 static unsigned char charIndex = 0;
                 if (charIndex == nameCharCount) {
                     SiSendChar('\0');
+                    setGoobyeName(charIndex, '!');
+                    setGoobyeName(charIndex+1, '\0');
+                    setNameCharCount(nameCharCount);
                     state++;
                     startMenu();
                     //START THE TIME COUNTER?¿
                 } else {
                     SiSendChar(portName[charIndex]);
+                    setGoobyeName(charIndex, portName[charIndex]);
                     charIndex++;
                 }
             }
-         case 4:
+         case 4: //SHOW MENU OPTIONS WAITING FOR '#'
             if (joystickIsDiffPos()) {
                 changeMenuOption(getJoystickMove());
+            }
+            if (hiHaTecla()) {
+                unsigned char tecla = getTecla();
+                if (tecla == '#'){
+                    enterOption(menuIndex);
+                }
+                setSonidoTecla(getIndexTecla());
+                teclaProcesada();
             }
             
             

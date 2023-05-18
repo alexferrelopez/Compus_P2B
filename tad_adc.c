@@ -59,7 +59,7 @@ void adcMotor(void) {
     }
 }    
 
-unsigned char joystickIsDiffPos () {
+unsigned char joystickIsDiffPos(void) {
     unsigned char result = ((position != lastPosition && position != CENTER) ? 1 : 0);
     lastPosition = position;
     return result;

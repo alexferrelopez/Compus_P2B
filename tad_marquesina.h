@@ -16,5 +16,8 @@ void marquesinaMotor(void);
 void clearScreen (void);
 void startMenu(void);
 void setMenuOption (unsigned char index);
+void enterOption (signed char index);
+void setNameCharCount(unsigned char charCount);
+void setGoobyeName (unsigned char index, char character);
 void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
 #endif

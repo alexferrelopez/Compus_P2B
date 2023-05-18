@@ -10,5 +10,5 @@ void adcMotor(void);
 unsigned char getValorMicro(void);
 unsigned char getFlagMicro(void);
 signed char getJoystickMove(void);
-unsigned char joystickIsDiffPos ();
+unsigned char joystickIsDiffPos(void);
 #endif
