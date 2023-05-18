@@ -11,5 +11,6 @@ void startHora(void);
 void horaMotor(void);
 unsigned char* getHora(void);
 void setHora(unsigned char* c);
+void resetClock(void);
 
 #endif

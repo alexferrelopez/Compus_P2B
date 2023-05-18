@@ -33,6 +33,13 @@ void setHora(unsigned char* hora) {
     clock[4] = hora[4];
 }
 
+void resetClock(void) {
+    clock[0] = '0';
+    clock[1] = '0';
+    clock[3] = '0';
+    clock[4] = '0';
+}
+
 void horaMotor() {
     switch (status) {
         case 0:

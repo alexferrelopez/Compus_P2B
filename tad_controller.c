@@ -157,8 +157,7 @@ void controllerMotor(void) {
             break;    
         case 9:
             // Reiniciamos el tiempo de comunicacion con la torre de control.
-            unsigned char clock[5] = "00:00";
-            setHora(clock);
+            resetClock();
             state = 0;
             break;    
     }    
