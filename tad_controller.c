@@ -122,8 +122,7 @@ void controllerMotor(void) {
                 unsigned char tecla = getNumber();
                 if (tecla == '*') {
                     // Reiniciamos a MM:SS
-                    unsigned char clock[5] = "MM:SS";
-                    setHora(clock);
+                    resetModifyClock();
                     startMenu();
                     state = 4;
                     indiceModifHora = 0;

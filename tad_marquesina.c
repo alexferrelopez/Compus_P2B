@@ -33,6 +33,13 @@ unsigned char* getNewHora(void) {
     return clock;
 }
 
+void resetModifyClock(void) {
+    clock[0] = 'M';
+    clock[1] = 'M';
+    clock[3] = 'S';
+    clock[4] = 'S';
+}
+
 void printPortString (unsigned char *menuStrHandle, unsigned char strLen, unsigned char row) {
     if (TI_GetTics(rowStates[row].marquesinaTimer) >= 2) {
         
