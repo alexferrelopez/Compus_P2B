@@ -126,6 +126,7 @@ void controllerMotor(void) {
                     setHora(clock);
                     startMenu();
                     state = 4;
+                    indiceModifHora = 0;
                 } else if (tecla == '#') {
                     if (indiceModifHora == 5) {
                         setHora(getNewHora());

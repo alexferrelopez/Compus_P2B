@@ -1,5 +1,3 @@
-#include <xc.h>
-
 #include "tad_marquesina.h"
 
 static unsigned char stringSelector, timer1s, nameCharCount;

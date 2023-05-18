@@ -6,6 +6,7 @@
 #include "tad_lcd.h"
 #include "tad_controller.h"
 #include "tad_adc.h"
+#include "tad_eeprom.h"
 
 #pragma config OSC = HSPLL //Convertimos el cristal externo de 10MHz en 40MHz
 #pragma config PBADEN = DIG
@@ -45,6 +46,10 @@ void main(void) {
 	config_interrupts();
     config_ports();
     
+    saveOnEEPROM(0,'a');
+    
+    char res = 0;
+    
     LcCursorOff();
     
     while(1) {
@@ -55,5 +60,10 @@ void main(void) {
         adcMotor();
         horaMotor();
         SIOmotor();
+        if (EEPROMWriteIsFinished()) {
+            res = loadFromEEPROM(0);
+            LcGotoXY(0,1);
+            LcPutChar(res);
+        }
 	}		
 }

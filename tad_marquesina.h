@@ -1,6 +1,8 @@
 #ifndef _MARQUESINA_H
 #define _MARQUESINA_H
 
+#include <xc.h>
+
 #include "tad_timer.h"
 #include "tad_lcd.h"
 #include "tad_hora.h"
