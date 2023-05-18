@@ -94,6 +94,10 @@ void controllerMotor(void) {
                         TI_ResetTics(timerController);
                     } else if (menuIndex == 2) {
                         state = 7;
+                    } else if (menuIndex == 3) {
+                        state = 8;
+                    } else if (menuIndex == 4) {
+                        state = 9;
                     }
                 }
                 setSonidoTecla(getIndexTecla());
@@ -117,14 +121,21 @@ void controllerMotor(void) {
                 static unsigned char indiceModifHora = 0;
                 unsigned char tecla = getNumber();
                 if (tecla == '*') {
+                    // Reiniciamos a MM:SS
+                    unsigned char clock[5] = "MM:SS";
+                    setHora(clock);
                     startMenu();
                     state = 4;
                 } else if (tecla == '#') {
-                    // Guardar como hora actual
-                    setHora(getNewHora());
-                    indiceModifHora = 0;
-                    startMenu();
-                    state = 4;
+                    if (indiceModifHora == 5) {
+                        setHora(getNewHora());
+                        indiceModifHora = 0;
+                        startMenu();
+                        state = 4;
+                    } else {
+                        teclaProcesada();
+                        break;
+                    }
                 } else if (indiceModifHora < 5) {
                     if (indiceModifHora == 2) indiceModifHora++;
                     setCharClock(tecla, indiceModifHora);
@@ -133,5 +144,21 @@ void controllerMotor(void) {
                 teclaProcesada();
             }
             break; 
+        case 8:
+            if (hiHaTecla()) {
+                unsigned char tecla = getTecla();
+                if (tecla == '*') {
+                    startMenu();
+                    state = 4;
+                }
+                teclaProcesada();
+            }
+            break;    
+        case 9:
+            // Reiniciamos el tiempo de comunicacion con la torre de control.
+            unsigned char clock[5] = "00:00";
+            setHora(clock);
+            state = 0;
+            break;    
     }    
 }
