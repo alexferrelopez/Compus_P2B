@@ -54,5 +54,6 @@ void main(void) {
         marquesinaMotor();
         adcMotor();
         horaMotor();
+        SIOmotor();
 	}		
 }

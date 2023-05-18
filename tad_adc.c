@@ -71,6 +71,6 @@ unsigned char getValorMicro(void) {
     return valorMicro;
 }
 
-unsigned char getFlagMicro(void) {
+unsigned char micValueIsAvail(void) {
     return flagMicro;
 }

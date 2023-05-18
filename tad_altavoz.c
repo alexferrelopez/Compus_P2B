@@ -1,12 +1,9 @@
-#include <xc.h>
-
 #include "tad_altavoz.h"
-#include "tad_timer.h"
 
 #define PUERTO_ALTAVOZ TRISBbits.TRISB7
 #define SALIDA_ALTAVOZ LATBbits.LATB7
 
-static unsigned char state,timeOn,timerPWM, contadorDutyCycle, valor, timerSonido;
+static unsigned char state, timerPWM, timerSonido, pasoMelodia;
 
 static unsigned char tecla;
 
@@ -18,6 +15,7 @@ void altavoz_init(void) {
     TI_NewTimer(&timerPWM); //Creamos un timer para el PWM
     TI_NewTimer(&timerSonido); //Creamos un timer para el PWM
     state = 0;
+    pasoMelodia = 0;
     return;
 }
 
@@ -29,12 +27,15 @@ void altavozMotor(void) {
             TI_ResetTics(timerSonido);
             break;
         case 1:
-            /*
-            if(TI_GetTics(timerPWM) >= periodos_tecla[timeOn]) {   
-                //BTG 
+            if(TI_GetTics(timerSonido) >= 500) {
+                pasoMelodia++;
+                if (pasoMelodia == 10) state = 0;
+                TI_ResetTics(timerSonido);
+            }
+            else if (TI_GetTics(timerPWM) >= periodos_tecla[10-pasoMelodia]) {
                 SALIDA_ALTAVOZ = !SALIDA_ALTAVOZ;
                 TI_ResetTics(timerPWM);
-            }*/
+            }
             break;
         case 2:
             if (TI_GetTics(timerSonido) >= 200) {
@@ -47,13 +48,11 @@ void altavozMotor(void) {
     }
 }
 
-void setMelodia(char c) {
-    state = c;
-    timeOn = 0;
-    contadorDutyCycle = 0;
-    valor = 1;
-    SALIDA_ALTAVOZ = valor; // Encendemos el altavoz
+void setMelodia(void) {
+    state = 1;
+    pasoMelodia = 0;
     TI_ResetTics(timerPWM);
+    TI_ResetTics(timerSonido);
 }
 
 void setSonidoTecla(char indexTecla) {

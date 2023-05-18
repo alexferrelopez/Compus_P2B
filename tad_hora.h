@@ -1,6 +1,8 @@
 #ifndef _HORA_H_
 #define _HORA_H_
 
+#include <xc.h>
+
 #include "tad_marquesina.h"
 #include "tad_timer.h"
 

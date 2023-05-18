@@ -129,14 +129,12 @@ void marquesinaMotor(void){
             printPortString((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 0);
             break;
         case 7://ENTER OP3
-            printPortString((unsigned char *) OP3, sizeof(OP4) - 1, 0);
+            printPortString((unsigned char *) OP3, sizeof(OP3) - 1, 0);
             printPortString(clock, 5, 1);
             break;
         case 8://ENTER OP4
             printPortString((unsigned char *) OP4, sizeof(OP4) - 1, 0);
-            // Mostrar la hora actual
-            unsigned char* hora = getHora();
-            printPortString(hora, 5, 1);
+            printPortString(getHora(), 5, 1);
             break;
         case 9://ENTER OP5
             printPortString(OP5, 9 + nameCharCount, 0);

@@ -1,6 +1,8 @@
 #ifndef _TIMER_H
 #define _TIMER_H
 
+#include <xc.h>
+
 #define TI_FALS 0
 #define TI_CERT 1
 

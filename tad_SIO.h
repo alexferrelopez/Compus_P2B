@@ -1,6 +1,9 @@
 #ifndef _SIO_
 #define _SIO_
 
+#include "tad_hora.h"
+#include "tad_adc.h"
+
 void initSIO(void);
 
 
@@ -18,5 +21,13 @@ char SiIsAvailable(void);
 void SiSendChar(char c);
 //Pre: SiIsAvailable().
 //Post: starts sending the specified character.
+
+void startRecording (void);
+
+unsigned char getIndexCharCount (void);
+
+void SIOmotor (void);
+
+unsigned char recordingOngoing(void);
 
 #endif

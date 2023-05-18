@@ -1,13 +1,11 @@
 #include "tad_controller.h"
-#include "tad_SIO.h"
-#include "tad_adc.h"
-#include "tad_hora.h"
 
-static unsigned char state, nameCharCount;
+static unsigned char state, nameCharCount, timerController;
 static char portName[3];
 static signed char menuIndex;
 
 void controllerInit (void) {
+    TI_NewTimer(&timerController);
     state = 0;
     nameCharCount = 0;
     LcGotoXY(0,0);
@@ -60,7 +58,7 @@ void controllerMotor(void) {
             if (SiCharAvail() > 0) {
                 if (SiGetChar() == 'K') {
                     state++;
-                };
+                }
             }
             break;
         case 3: //SEND THE NAME WE HAVE SAVED
@@ -81,6 +79,7 @@ void controllerMotor(void) {
                     charIndex++;
                 }
             }
+            break;
         case 4: //SHOW MENU OPTIONS WAITING FOR '#'
             if (joystickIsDiffPos()) {
                 changeMenuOption(getJoystickMove());
@@ -90,13 +89,29 @@ void controllerMotor(void) {
                 unsigned char tecla = getTecla();
                 if (tecla == '#') {
                     enterOption(menuIndex);
-                    if (menuIndex == 2) {
+                    if (menuIndex == 0) {
+                        state = 5;
+                        TI_ResetTics(timerController);
+                    } else if (menuIndex == 2) {
                         state = 7;
                     }
                 }
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();
             }
+            break;
+        case 5: // RECORDING
+            startRecording();
+            state++;
+            break;
+        case 6:
+            if (!recordingOngoing()) {
+                state = 4;
+                setMelodia();
+                startMenu();
+                //SAVE INDEX AND TIMESTAMP IN EEPROM
+            }
+            break;
         case 7:
             if (hiHaTecla()) {
                 static unsigned char indiceModifHora = 0;
