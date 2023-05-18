@@ -8,7 +8,7 @@ static char portName[3];
 static signed char menuIndex;
 
 void controllerInit (void) {
-    state = 0;
+    state = 4;
     nameCharCount = 0;
     LcGotoXY(0,0);
     menuIndex = 0;
@@ -93,6 +93,8 @@ void controllerMotor(void) {
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();
             }
+         case 5:
+             
             
             
         /* code */

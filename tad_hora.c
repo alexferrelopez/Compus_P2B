@@ -24,7 +24,7 @@ void startHora(void) {
 }
 
 unsigned char* getHora(void) {
-    return &clock;
+    return clock;
 }
 
 void horaMotor() {

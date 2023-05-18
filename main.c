@@ -35,6 +35,7 @@ void config_ports(void) {
     marquesinaInit();
     adc_init();
 	initSIO();
+    hora_init();
 	LcInit(2, 16);
     LcClear();
 }
@@ -52,5 +53,6 @@ void main(void) {
         controllerMotor();
         marquesinaMotor();
         adcMotor();
+        horaMotor();
 	}		
 }
