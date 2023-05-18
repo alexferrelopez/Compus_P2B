@@ -10,6 +10,6 @@ typedef struct recording {
 
 unsigned char loadFromEEPROM(unsigned char index);
 void saveOnEEPROM (unsigned char index, char c);
-unsigned char EEPROMWriteIsFinished ();
+unsigned char EEPROMWriteIsFinished (void);
 
 #endif

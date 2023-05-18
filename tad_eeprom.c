@@ -49,7 +49,7 @@ void saveOnEEPROM (unsigned char index, char c) {
     ei();
 }
 
-unsigned char EEPROMWriteIsFinished () {
+unsigned char EEPROMWriteIsFinished (void) {
     if (PIR2bits.EEIF){
         PIR2bits.EEIF = 0;
         EECON1bits.WREN = 1;
