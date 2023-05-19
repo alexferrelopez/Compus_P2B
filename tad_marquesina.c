@@ -3,11 +3,11 @@
 static unsigned char stringSelector, timer1s, nameCharCount;
 static RowState rowStates[2];
 static const unsigned char PortNameStr[] = "PORT NAME:";
-static const unsigned char MenuOp1[] = "1. Start Recording ";
-static const unsigned char MenuOp2[] = "2. Play Recordings ";
-static const unsigned char MenuOp3[] = "3. Modify Current Time ";
-static const unsigned char MenuOp4[] = "4. Show Current Time ";
-static const unsigned char MenuOp5[] = "5. End Communication ";
+static const unsigned char MenuOp1[] = "1. START RECORDING ";
+static const unsigned char MenuOp2[] = "2. PLAY RECORDINGS ";
+static const unsigned char MenuOp3[] = "3. MODIFY CURRENT TIME ";
+static const unsigned char MenuOp4[] = "4. SHOW CURRENT TIME ";
+static const unsigned char MenuOp5[] = "5. END COMMUNICATION ";
 static const unsigned char OP1[] = "RECORDING...";
 static const unsigned char OP2_2[] = "PLAYING...";
 static const unsigned char OP3[] = "MODIFY TIME:";

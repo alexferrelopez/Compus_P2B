@@ -1,7 +1,8 @@
 #include <xc.h>
 #include "tad_SIO.h"
+#include "tad_eeprom.h"
 
-static unsigned char state, incomingCharCount, recordIndex[10];
+static unsigned char state, incomingCharCount, recordIndex[10], timestamp[5];
 
 void initSIO(void) {
 //Pre: -
@@ -86,7 +87,8 @@ void SIOmotor (void) {
         case 4:
             if (SiIsAvailable()) {
                 static char timestampCount = 0;
-                SiSendChar(getHora()[timestampCount]);
+                timestamp[timestampCount] = getHora()[timestampCount];
+                SiSendChar(timestamp[timestampCount]);
                 if (timestampCount == 4) {
                     timestampCount = 0;
                     state++;
@@ -110,8 +112,10 @@ void SIOmotor (void) {
             break;
         case 7:
             if (SiGetChar() == 'K') {
+                setIndex(recordIndex);
+                setTimestamp(timestamp);
+                saveRecording();
                 state = 0;
-                //musica final
             }
             break;
     }

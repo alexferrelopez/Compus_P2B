@@ -115,7 +115,6 @@ void controllerMotor(void) {
                 state = 4;
                 setMelodia();
                 startMenu();
-                //SAVE INDEX AND TIMESTAMP IN EEPROM
             }
             break;
         case 7:

@@ -3,13 +3,18 @@
 
 #include <xc.h> 
 
-typedef struct recording {
-    char index[10];
-    char timestamp[4];
-} recording;
+#define BASE_OFFSET 2
 
-unsigned char loadFromEEPROM(unsigned char index);
-void saveOnEEPROM (unsigned char index, char c);
-unsigned char EEPROMWriteIsFinished (void);
+typedef struct Recording {
+    unsigned char index[10];
+    unsigned char timestamp[5];
+} Recording;
+
+void EEPROMinit (void);
+void motorEEPROM (void);
+void saveRecording (void);
+void loadRecordings (void);
+void setTimestamp (unsigned char* timestampToSave);
+void setIndex (unsigned char* indexToSave);
 
 #endif
