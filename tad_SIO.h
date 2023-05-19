@@ -3,9 +3,9 @@
 
 #include "tad_hora.h"
 #include "tad_adc.h"
+#include "tad_eeprom.h"
 
 void initSIO(void);
-
 
 char SiCharAvail(void);
 //Post: returns the number of available characters that are in the reception queue.
