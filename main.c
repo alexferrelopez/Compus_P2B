@@ -43,44 +43,21 @@ void config_ports(void) {
 }
 
 void main(void) {
-    //TRISAbits.TRISA3 = 0;
 	config_interrupts();
     config_ports();
     
     LcCursorOff();
     
-    /*Recording r;
-    r.index[0] = 'a';
-    r.index[1] = 'a';
-    r.index[2] = 'a';
-    r.index[3] = 'a';
-    r.index[4] = 'a';
-    r.index[5] = 'a';
-    r.index[6] = 'a';
-    r.index[7] = 'a';
-    r.index[8] = 'a';
-    r.index[9] = 'a';
-    r.timestamp[0] = 'X';
-    r.timestamp[1] = 'X';
-    r.timestamp[2] = 'X';
-    r.timestamp[3] = 'X';
-    r.timestamp[4] = 'X';
-    
-    
-    setTimestamp(r.timestamp);
-    setIndex(r.index);
-    saveRecording();*/
     loadRecordings();
     
     while(1) {
-        
-		tecladoMotor();
+		tecladoMotor(); 
         altavozMotor();
         controllerMotor();
-        marquesinaMotor();
-        adcMotor();
-        horaMotor();
-        SIOmotor();
+        marquesinaMotor(); 
+        adcMotor(); 
+        horaMotor(); 
+        SIOmotor(); 
         motorEEPROM();
 	}		
 }
