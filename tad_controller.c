@@ -131,6 +131,8 @@ void controllerMotor(void) {
                     if (indiceModifHora == 5) {
                         setHora(getNewHora());
                         indiceModifHora = 0;
+                        // Reiniciamos a MM:SS para la proxima vez que quiero modificar la hora.
+                        resetModifyClock();
                         startMenu();
                         state = 4;
                     } else {
@@ -160,6 +162,7 @@ void controllerMotor(void) {
             if (TI_GetTics(timerController) > 2000) {
                 resetClock();
                 state = 0;
+                menuIndex = 0;
                 TI_ResetTics(timerController);
             }
             break;    
