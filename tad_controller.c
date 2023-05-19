@@ -71,8 +71,9 @@ void controllerMotor(void) {
                     setNameCharCount(nameCharCount);
                     state++;
                     startMenu();
-                    //START THE TIME COUNTER?
+                    //START THE TIME COUNTER
                     startHora();
+                    charIndex = 0;
                 } else {
                     SiSendChar(portName[charIndex]);
                     setGoobyeName(charIndex, portName[charIndex]);
@@ -160,10 +161,10 @@ void controllerMotor(void) {
         case 9:
             // Reiniciamos el tiempo de comunicacion con la torre de control.
             if (TI_GetTics(timerController) > 2000) {
-                resetClock();
                 state = 0;
                 menuIndex = 0;
-                TI_ResetTics(timerController);
+                resetVariablesTeclado();
+                resetStringSelector();
             }
             break;    
     }    

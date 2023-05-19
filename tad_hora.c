@@ -19,6 +19,10 @@ void hora_init(void) {
 
 // Funcion que inicia el timming de la hora a partir de que se establezca la comunicacion con la torre.
 void startHora(void) {
+    clock[0] = '0';
+    clock[1] = '0';
+    clock[3] = '0';
+    clock[4] = '0';
     status = 1;
 }
 
@@ -31,13 +35,6 @@ void setHora(unsigned char* hora) {
     clock[1] = hora[1];
     clock[3] = hora[3];
     clock[4] = hora[4];
-}
-
-void resetClock(void) {
-    clock[0] = '0';
-    clock[1] = '0';
-    clock[3] = '0';
-    clock[4] = '0';
 }
 
 void horaMotor() {

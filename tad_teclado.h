@@ -12,8 +12,9 @@ char getTecla(void);
 char getIndexTecla(void);
 char hiHaTecla(void);
 void teclaProcesada(void);
-unsigned char getPosTecla (void);
+unsigned char getPosTecla(void);
 void resetPosTecla (void);
 unsigned char getNumber(void);
+void resetVariablesTeclado(void);
 
 #endif

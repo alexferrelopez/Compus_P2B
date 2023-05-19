@@ -12,7 +12,7 @@ static const unsigned char OP1[] = "RECORDING...";
 static const unsigned char OP2_2[] = "PLAYING...";
 static const unsigned char OP3[] = "MODIFY TIME:";
 static const unsigned char OP4[] = "CURRENT TIME:";
-unsigned char OP5[13] = "bye bye <n>!";
+static unsigned char OP5[13] = "bye bye <n>!";
 static unsigned char clock[6] = "MM:SS";
 
 void resetRowStates (void) {
@@ -27,6 +27,12 @@ void marquesinaInit (void) {
     TI_NewTimer(&rowStates[1].marquesinaTimer);
     TI_NewTimer(&timer1s);
     resetRowStates();
+    resetStringSelector();
+}
+
+void resetStringSelector(void) {
+    stringSelector = 0;
+    clearScreen();
 }
 
 unsigned char* getNewHora(void) {
@@ -103,6 +109,10 @@ void setGoobyeName (unsigned char index, char character) {
 
 void setCharClock (unsigned char newChar, unsigned char index) {
     clock[index] = newChar;
+}
+
+void changeWelcomeView(void) {
+    stringSelector = 0;
 }
 
 void marquesinaMotor(void){

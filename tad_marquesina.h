@@ -26,5 +26,7 @@ void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned
 void setCharClock(unsigned char character, unsigned char index);
 unsigned char* getNewHora(void);
 void resetModifyClock(void);
+void changeWelcomeView(void);
+void resetStringSelector(void);
 
 #endif

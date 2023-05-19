@@ -45,6 +45,13 @@ void teclado_init(void) {
     TI_NewTimer(&timerTeclado); //Creamos un timer para el teclado
     TI_NewTimer(&timer1s); //Creamos un timer para el teclado
 
+    resetVariablesTeclado();
+    
+    TI_ResetTics(timerTeclado);
+    TI_ResetTics(timer1s);
+}
+
+void resetVariablesTeclado(void) {
     state = 0;
     numPulsaciones = 0;
     flagTecla = 0;
@@ -52,9 +59,6 @@ void teclado_init(void) {
     ultimoIndiceTecla = 12;
     posTecla = 0;
     letterIsSet = 1;
-
-    TI_ResetTics(timerTeclado);
-    TI_ResetTics(timer1s);
 }
 
 char getTecla(void) {
@@ -75,7 +79,7 @@ unsigned char getNumber(void) {
     }
 }
 
-char hiHaTecla(void){
+char hiHaTecla(void) {
     return flagTecla & 1;
 }
 
@@ -84,11 +88,11 @@ void teclaProcesada(void) {
     flagTecla = 0;
 }
 
-unsigned char getPosTecla (void) {
+unsigned char getPosTecla(void) {
     return posTecla-1;
 }
 
-void resetPosTecla (void) {
+void resetPosTecla(void) {
     posTecla = 0;
 }
 
