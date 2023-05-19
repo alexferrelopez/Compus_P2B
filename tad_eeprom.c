@@ -10,7 +10,6 @@ void EEPROMinit (void) {
     loadRecordingIndex = 0;
 }
 
-
 /*
  MOVLW DATA_EE_ADDR ;
 MOVWF EEADR ; Data Memory Address to read

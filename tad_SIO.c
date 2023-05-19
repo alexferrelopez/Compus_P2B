@@ -1,6 +1,5 @@
 #include <xc.h>
 #include "tad_SIO.h"
-#include "tad_eeprom.h"
 
 static unsigned char state, incomingCharCount, recordIndex[10], timestamp[5];
 
