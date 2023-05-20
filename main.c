@@ -57,10 +57,10 @@ void main(void) {
 		tecladoMotor();
         altavozMotor();
         controllerMotor();
-        marquesinaMotor();
-        adcMotor();
-        horaMotor();
-        SIOmotor();
+        marquesinaMotor(); 
+        adcMotor(); 
+        horaMotor(); 
+        SIOmotor(); 
         motorEEPROM();
 	}
 }
