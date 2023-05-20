@@ -1,8 +1,7 @@
 #include <xc.h>
 
 #include "tad_hora.h"
-
-//#include "tad_marquesina.h"
+#include "tad_timer.h"
 
 static unsigned char status, clock[5], timerHora; 
 

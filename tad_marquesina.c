@@ -1,6 +1,11 @@
-#include "tad_marquesina.h"
+#include <xc.h>
 
-static unsigned char stringSelector, timer1s, nameCharCount;
+#include "tad_marquesina.h"
+#include "tad_timer.h"
+#include "tad_lcd.h"
+#include "tad_hora.h"
+
+static unsigned char stringSelector, timer1s, nameCharCount, updateRecordingsFlag, singleRecordingFlag;
 static RowState rowStates[2];
 static const unsigned char PortNameStr[] = "PORT NAME:";
 static const unsigned char MenuOp1[] = "1. START RECORDING ";
@@ -12,8 +17,13 @@ static const unsigned char OP1[] = "RECORDING...";
 static const unsigned char OP2_2[] = "PLAYING...";
 static const unsigned char OP3[] = "MODIFY TIME:";
 static const unsigned char OP4[] = "CURRENT TIME:";
+static const unsigned char NoRecordings[] = "THERE ARE NO RECORDINGS! ";
 static unsigned char OP5[13] = "bye bye <n>!";
 static unsigned char clock[6] = "MM:SS";
+static unsigned char recordingStrRow0[18];
+static unsigned char recordingStrRow1[18];
+static Recording *recordingRow0;
+static Recording *recordingRow1;
 
 void resetRowStates (void) {
     rowStates[0].basePos = rowStates[0].screenXPos = rowStates[0].stringIndex = 0;
@@ -28,6 +38,7 @@ void marquesinaInit (void) {
     TI_NewTimer(&timer1s);
     resetRowStates();
     resetStringSelector();
+    singleRecordingFlag = 0;
 }
 
 void resetStringSelector(void) {
@@ -111,8 +122,71 @@ void setCharClock (unsigned char newChar, unsigned char index) {
     clock[index] = newChar;
 }
 
-void changeWelcomeView(void) {
-    stringSelector = 0;
+void changeNoRecView(void) {
+    stringSelector = 10;
+}
+
+void setRecordingOptions(Recording *newRecordingRow0, Recording *newRecordingRow1) {
+    recordingRow0 = newRecordingRow0;
+    recordingRow1 = newRecordingRow1;
+    updateRecordingsFlag = 1;
+    clearScreen();
+}
+
+void setSingleRecordFlag (unsigned char c) {
+    singleRecordingFlag = c;
+}
+
+void updateRecordingsStr(void) {
+    if (updateRecordingsFlag) {
+        static unsigned char transferSteps = 0;
+        static unsigned char counter = 0;
+        switch (transferSteps) {
+            case 0:
+                if (recordingRow0->index[counter] == '\0') {
+                    recordingStrRow0[counter++] = ' ';
+                    recordingStrRow0[counter++] = '-';
+                    recordingStrRow0[counter++] = ' ';
+                    counter = 0;
+                    transferSteps++;
+                }else {
+                    recordingStrRow0[counter] = recordingRow0->index[counter];
+                    counter++;
+                }
+                break;
+            case 1:
+                if (counter == recordingRow0->index_len + 5 + 3) {
+                    transferSteps++;
+                    counter = 0;
+                }else {
+                    recordingStrRow0[recordingRow0->index_len + 3 + counter] = recordingRow0->timestamp[counter];
+                    counter++;
+                }
+                break;
+            case 2:
+                if (recordingRow1->index[counter] == '\0') {
+                    recordingStrRow1[counter++] = ' ';
+                    recordingStrRow1[counter++] = '-';
+                    recordingStrRow1[counter++] = ' ';
+                    counter = 0;
+                    transferSteps++;
+                }else {
+                    recordingStrRow1[counter] = recordingRow1->index[counter];
+                    counter++;
+                }
+                break;
+            case 3:
+                if (counter == recordingRow1->index_len + 5 + 3) {
+                    transferSteps=0;
+                    counter = 0;
+                    updateRecordingsFlag = 0;
+                }else {
+                    recordingStrRow1[recordingRow1->index_len + 3 + counter] = recordingRow1->timestamp[counter];
+                    counter++;
+                }
+                break;       
+        }
+    }
 }
 
 void marquesinaMotor(void){
@@ -141,7 +215,11 @@ void marquesinaMotor(void){
             printPortString((unsigned char *) OP1, sizeof(OP1) - 1, 0);
             break;
         case 6://ENTER OP2
-            printPortString((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 0);
+            updateRecordingsStr();
+            printPortString(recordingStrRow0, recordingRow0->index_len + 5 + 3, 0);
+            if (!singleRecordingFlag) {
+                printPortString(recordingStrRow1, recordingRow1->index_len + 5 + 3, 1);
+            }
             break;
         case 7://ENTER OP3
             printPortString((unsigned char *) OP3, sizeof(OP3) - 1, 0);
@@ -153,6 +231,9 @@ void marquesinaMotor(void){
             break;
         case 9://ENTER OP5
             printPortString(OP5, 9 + nameCharCount, 0);
+            break;
+        case 10:
+            printPortString((unsigned char *)NoRecordings, sizeof(NoRecordings) - 1, 0);
             break;
     }
     

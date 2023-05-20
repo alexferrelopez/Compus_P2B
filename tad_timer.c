@@ -1,3 +1,4 @@
+#include <xc.h>
 #include "tad_timer.h"
 
 // Definicions, per interrupcio cada 1ms.

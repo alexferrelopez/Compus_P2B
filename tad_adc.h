@@ -1,8 +1,6 @@
 #ifndef _ADC_H
 #define _ADC_H
 
-#include <xc.h>
-
 #define GO_UP -1
 #define GO_DOWN 1
 #define CENTER 0

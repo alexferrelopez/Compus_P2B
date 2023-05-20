@@ -1,5 +1,6 @@
 #include <xc.h>
 
+#include "tad_teclado.h"
 #include "tad_altavoz.h"
 #include "tad_timer.h"
 #include "tad_SIO.h"
@@ -7,6 +8,8 @@
 #include "tad_controller.h"
 #include "tad_adc.h"
 #include "tad_eeprom.h"
+#include "tad_marquesina.h"
+#include "tad_hora.h"
 
 #pragma config OSC = HSPLL //Convertimos el cristal externo de 10MHz en 40MHz
 #pragma config PBADEN = DIG
@@ -43,37 +46,14 @@ void config_ports(void) {
 }
 
 void main(void) {
-    //TRISAbits.TRISA3 = 0;
 	config_interrupts();
     config_ports();
     
     LcCursorOff();
-    
-    /*Recording r;
-    r.index[0] = 'a';
-    r.index[1] = 'a';
-    r.index[2] = 'a';
-    r.index[3] = 'a';
-    r.index[4] = 'a';
-    r.index[5] = 'a';
-    r.index[6] = 'a';
-    r.index[7] = 'a';
-    r.index[8] = 'a';
-    r.index[9] = 'a';
-    r.timestamp[0] = 'X';
-    r.timestamp[1] = 'X';
-    r.timestamp[2] = 'X';
-    r.timestamp[3] = 'X';
-    r.timestamp[4] = 'X';
-    
-    
-    setTimestamp(r.timestamp);
-    setIndex(r.index);
-    saveRecording();*/
+   
     loadRecordings();
     
-    while(1) {
-        
+    while(1) {  
 		tecladoMotor();
         altavozMotor();
         controllerMotor();
@@ -82,5 +62,5 @@ void main(void) {
         horaMotor();
         SIOmotor();
         motorEEPROM();
-	}		
+	}
 }

@@ -1,8 +1,18 @@
+#include <xc.h>
+
 #include "tad_controller.h"
+#include "tad_timer.h"
+#include "tad_teclado.h"
+#include "tad_lcd.h"
+#include "tad_altavoz.h"
+#include "tad_marquesina.h"
+#include "tad_SIO.h"
+#include "tad_adc.h"
+#include "tad_hora.h"
 
 static unsigned char state, nameCharCount, timerController;
 static char portName[3];
-static signed char menuIndex;
+static signed char menuIndex, recordingIndex;
 
 void controllerInit (void) {
     TI_NewTimer(&timerController);
@@ -10,6 +20,7 @@ void controllerInit (void) {
     nameCharCount = 0;
     LcGotoXY(0,0);
     menuIndex = 0;
+    recordingIndex = 0;
 }
 
 void changeMenuOption (signed char move) {
@@ -20,6 +31,26 @@ void changeMenuOption (signed char move) {
         menuIndex = 0;
     }
     setMenuOption((unsigned char) menuIndex);
+}
+
+void changeRecordingOption (signed char move) {
+    recordingIndex += move;
+    signed char numRecordings = (signed char) getNumRecordings();
+    if (recordingIndex >= numRecordings) {
+        if (numRecordings > 0) {
+            recordingIndex = (numRecordings - 1);
+        } else {
+            recordingIndex = 0;
+        }
+    } else if (recordingIndex < 0) {
+        recordingIndex = 0;
+    }
+}
+
+void returnToMenu (void) {
+    startMenu();
+    state = 4;
+    menuIndex = 0;
 }
 
 void controllerMotor(void) {
@@ -40,9 +71,7 @@ void controllerMotor(void) {
                     LcGotoXY(pos,1);
                     portName[pos] = tecla;
                     LcPutChar(tecla);
-                    nameCharCount = pos+1;
-                    LcGotoXY(4,1);
-                    LcPutChar(nameCharCount + '0');
+                    nameCharCount = pos+1;               
                 }
                 setSonidoTecla(getIndexTecla());
                 teclaProcesada();
@@ -69,8 +98,7 @@ void controllerMotor(void) {
                     setGoobyeName(charIndex, '!');
                     setGoobyeName(charIndex+1, '\0');
                     setNameCharCount(nameCharCount);
-                    state++;
-                    startMenu();
+                    returnToMenu();
                     //START THE TIME COUNTER
                     startHora();
                     charIndex = 0;
@@ -85,21 +113,17 @@ void controllerMotor(void) {
             if (joystickIsDiffPos()) {
                 changeMenuOption(getJoystickMove());
             }
-            
             if (hiHaTecla()) {
                 unsigned char tecla = getTecla();
                 if (tecla == '#') {
                     enterOption(menuIndex);
-                    if (menuIndex == 0) {
-                        state = 5;
+                    state = 5 + (unsigned char) menuIndex;
+                    if (menuIndex == 0 || menuIndex == 4) {
                         TI_ResetTics(timerController);
-                    } else if (menuIndex == 2) {
-                        state = 7;
-                    } else if (menuIndex == 3) {
-                        state = 8;
-                    } else if (menuIndex == 4) {
-                        state = 9;
-                        TI_ResetTics(timerController);
+                    } else if (menuIndex == 1) {
+                        setRecordingOptions(getRecording(0), getRecording(1));
+                        if (getNumRecordings() == 1) setSingleRecordFlag(1);
+                        else setSingleRecordFlag(0);
                     }
                 }
                 setSonidoTecla(getIndexTecla());
@@ -108,13 +132,37 @@ void controllerMotor(void) {
             break;
         case 5: // RECORDING
             startRecording();
-            state++;
+            state = 10;
             break;
-        case 6:
-            if (!recordingOngoing()) {
-                state = 4;
-                setMelodia();
-                startMenu();
+        case 6: //REPRODUCING
+            if (getNumRecordings() == 0) {
+                state = 8;
+                changeNoRecView();
+                recordingIndex = 0;
+            }
+            else if (joystickIsDiffPos()) {
+                changeRecordingOption(getJoystickMove());
+                if (recordingIndex == getNumRecordings()-1 && getNumRecordings() > 1) {
+                    setRecordingOptions(getRecording((unsigned char)recordingIndex-1), 
+                            getRecording((unsigned char)recordingIndex));                
+                } else {
+                    setRecordingOptions(getRecording((unsigned char)recordingIndex), 
+                            getRecording((unsigned char)recordingIndex+1));
+                }
+            }
+            if (hiHaTecla()) {
+                unsigned char tecla = getTecla();
+                if (tecla == '#') {
+                    startReproducing();
+                    setIndexToSend(getRecording((unsigned char)recordingIndex)->index);
+                    state = 10;
+                    recordingIndex = 0;
+                } else if (tecla == '*') {
+                    returnToMenu();
+                    recordingIndex = 0;
+                }
+                setSonidoTecla(getIndexTecla());
+                teclaProcesada();
             }
             break;
         case 7:
@@ -124,8 +172,7 @@ void controllerMotor(void) {
                 if (tecla == '*') {
                     // Reiniciamos a MM:SS
                     resetModifyClock();
-                    startMenu();
-                    state = 4;
+                    returnToMenu();
                     indiceModifHora = 0;
                 } else if (tecla == '#') {
                     if (indiceModifHora == 5) {
@@ -133,8 +180,7 @@ void controllerMotor(void) {
                         indiceModifHora = 0;
                         // Reiniciamos a MM:SS para la proxima vez que quiero modificar la hora.
                         resetModifyClock();
-                        startMenu();
-                        state = 4;
+                        returnToMenu();
                     } else {
                         teclaProcesada();
                         break;
@@ -146,13 +192,12 @@ void controllerMotor(void) {
                 }
                 teclaProcesada();
             }
-            break; 
+            break;
         case 8:
             if (hiHaTecla()) {
                 unsigned char tecla = getTecla();
                 if (tecla == '*') {
-                    startMenu();
-                    state = 4;
+                    returnToMenu();
                 }
                 teclaProcesada();
             }
@@ -165,6 +210,12 @@ void controllerMotor(void) {
                 resetVariablesTeclado();
                 resetStringSelector();
             }
-            break;    
+            break;
+        case 10:
+            if (!actionOngoing()) {
+                setMelodia();
+                returnToMenu();
+            }
+            break;
     }    
 }

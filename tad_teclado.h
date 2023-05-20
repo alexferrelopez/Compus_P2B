@@ -1,8 +1,6 @@
 #ifndef _TECLADO_H
 #define _TECLADO_H
 
-#include "tad_timer.h"
-
 #define TECLA_READY 1
 #define REPLACE_LAST 3
 

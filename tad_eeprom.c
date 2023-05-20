@@ -1,3 +1,5 @@
+#include <xc.h> 
+
 #include "tad_eeprom.h"
 
 static Recording recordings[8];
@@ -59,9 +61,17 @@ void saveOnEEPROM (unsigned char index, char c) {
 unsigned char EEPROMWriteIsFinished (void) {
     if (PIR2bits.EEIF){
         PIR2bits.EEIF = 0;
-        EECON1bits.WREN = 1;
+        EECON1bits.WREN = 0;
         return 1;
     } else return 0; 
+}
+
+Recording * getRecording(unsigned char index) {
+    return &recordings[index];
+}
+
+unsigned char getNumRecordings (void) {
+    return numRecordings;
 }
 
 void motorEEPROM (void) {
@@ -71,18 +81,22 @@ void motorEEPROM (void) {
             loadRecordingIndex = 0;
             break;
         case 1: //NEW RECORGING SAVE
-            if (counter == 10) {
+            if (counter == 11) {
                 state ++;
             }
-            else if (EEPROMWriteIsFinished() || counter == 0){
-                saveOnEEPROM(BASE_OFFSET + oldestInsertedRec * sizeof(Recording) + counter, recordings[oldestInsertedRec].index[counter]);
+            else if (counter == 0) {
+                saveOnEEPROM(BASE_OFFSET + oldestInsertedRec * sizeof(Recording) + counter, recordings[oldestInsertedRec].index_len);
+                counter++;
+            }
+            else if (EEPROMWriteIsFinished() && EECON1bits.WR == 0){
+                saveOnEEPROM(BASE_OFFSET + oldestInsertedRec * sizeof(Recording) + counter, recordings[oldestInsertedRec].index[counter-1]);
                 counter++;
             }
             break;
         case 2:
-            if (counter == 15) state++;
-            else if (EEPROMWriteIsFinished()){
-                saveOnEEPROM(BASE_OFFSET + oldestInsertedRec * sizeof(Recording) + counter, recordings[oldestInsertedRec].timestamp[counter-10]);
+            if (counter == 16) state++;
+            else if (EEPROMWriteIsFinished() && EECON1bits.WR == 0){
+                saveOnEEPROM(BASE_OFFSET + oldestInsertedRec * sizeof(Recording) + counter, recordings[oldestInsertedRec].timestamp[counter-11]);
                 counter++;
             }
             break;
@@ -92,15 +106,16 @@ void motorEEPROM (void) {
             if (numRecordings < 8) numRecordings ++;
             break;
         case 4:
-            if (EEPROMWriteIsFinished()){
+            if (EEPROMWriteIsFinished() && EECON1bits.WR == 0){
                 saveOnEEPROM(0, numRecordings);
                 state++;
             }
             break;
         case 5: 
-            if (EEPROMWriteIsFinished()){
+            if (EEPROMWriteIsFinished() && EECON1bits.WR == 0){
                 saveOnEEPROM(1, oldestInsertedRec);
                 state = 0;
+                counter = 0;
             }
             break;
         case 6: //INITIAL LOAD
@@ -110,23 +125,33 @@ void motorEEPROM (void) {
                 numRecordings = 0;
                 oldestInsertedRec = 0;
             }
+            state++;
             break;
         case 7:
             if (loadRecordingIndex == numRecordings) {
                 state = 0; 
             }
-            else if (counter == 10) { 
+            else if (counter == 11) { 
                 state++;
             }
+            else if (counter == 0) {
+                recordings[loadRecordingIndex].index_len = loadFromEEPROM(BASE_OFFSET + loadRecordingIndex * sizeof(Recording) + counter);
+                counter++;
+            }
             else {
-                recordings[loadRecordingIndex].timestamp[counter] = loadFromEEPROM(BASE_OFFSET + loadRecordingIndex * sizeof(Recording) + counter);
-                counter ++;
+                recordings[loadRecordingIndex].index[counter-1] = loadFromEEPROM(BASE_OFFSET + loadRecordingIndex * sizeof(Recording) + counter);
+                counter++;
             }
             break;
         case 8:
-            if (counter == 15) state--;
+            if (counter == 16) {
+                state--;
+                counter = 0;
+                loadRecordingIndex++;
+            }
             else {
-                recordings[loadRecordingIndex].timestamp[counter-10] = loadFromEEPROM(BASE_OFFSET + loadRecordingIndex * sizeof(Recording) + counter);
+                recordings[loadRecordingIndex].timestamp[counter-11] = loadFromEEPROM(BASE_OFFSET + loadRecordingIndex * sizeof(Recording) + counter);
+                counter++;
             }
             break;
     }
@@ -159,4 +184,8 @@ void setIndex (unsigned char* indexToSave) {
     recordings[oldestInsertedRec].index[7] = indexToSave[7];
     recordings[oldestInsertedRec].index[8] = indexToSave[8];
     recordings[oldestInsertedRec].index[9] = indexToSave[9];
+}
+
+void setIndexLen (unsigned char indexLenToSave) {
+    recordings[oldestInsertedRec].index_len = indexLenToSave;
 }

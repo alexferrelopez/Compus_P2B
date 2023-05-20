@@ -1,7 +1,10 @@
 #include <xc.h>
+#include "tad_hora.h"
+#include "tad_adc.h"
+#include "tad_eeprom.h"
 #include "tad_SIO.h"
 
-static unsigned char state, incomingCharCount, recordIndex[10], timestamp[5];
+static unsigned char state, incomingCharCount, recordIndex[10], timestamp[5], *indexToSend;
 
 void initSIO(void) {
 //Pre: -
@@ -43,16 +46,16 @@ void startRecording(void) {
     state = 1;
 }
 
-unsigned char* getRecordIndex(void) {
-    return recordIndex;
+void startReproducing(void) {
+    state = 8;
 }
 
-unsigned char getIndexCharCount(void) {
-    return incomingCharCount;
+unsigned char actionOngoing(void) {
+    return state > 0;
 }
 
-unsigned char recordingOngoing(void) {
-    return state;
+void setIndexToSend (unsigned char *newIndexToSend) {
+    indexToSend = newIndexToSend;
 }
 
 void SIOmotor (void) {
@@ -111,10 +114,44 @@ void SIOmotor (void) {
             break;
         case 7:
             if (SiGetChar() == 'K') {
+                setIndexLen(incomingCharCount);
                 setIndex(recordIndex);
                 setTimestamp(timestamp);
                 saveRecording();
                 state = 0;
+            }
+            break;
+        case 8:
+            if (SiIsAvailable()) {
+                SiSendChar('P');
+                state++;
+            }
+            break;
+        case 9:
+            if (SiCharAvail() > 0) {
+                if (SiGetChar() == 'K') {
+                    state++;
+                }
+            }
+            break;
+        case 10:
+            if (SiIsAvailable()) {
+                static char indexCount = 0;
+                if (indexCount == 10) SiSendChar('\0');
+                else SiSendChar(indexToSend[indexCount]);
+                if (indexToSend[indexCount] == '\0' || indexCount == 10) {
+                    indexCount = 0;
+                    state++;
+                } else {
+                    indexCount++;
+                }
+            }
+            break;
+        case 11:
+            if (SiCharAvail() > 0) {
+                if (SiGetChar() == 'F') {
+                    state = 0;
+                }
             }
             break;
     }

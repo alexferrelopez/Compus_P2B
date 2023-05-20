@@ -1,4 +1,7 @@
+#include <xc.h>
+
 #include "tad_altavoz.h"
+#include "tad_timer.h"
 
 #define PUERTO_ALTAVOZ TRISBbits.TRISB7
 #define SALIDA_ALTAVOZ LATBbits.LATB7

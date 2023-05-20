@@ -1,10 +1,6 @@
 #ifndef _SIO_
 #define _SIO_
 
-#include "tad_hora.h"
-#include "tad_adc.h"
-#include "tad_eeprom.h"
-
 void initSIO(void);
 
 char SiCharAvail(void);
@@ -24,10 +20,12 @@ void SiSendChar(char c);
 
 void startRecording (void);
 
-unsigned char getIndexCharCount (void);
-
 void SIOmotor (void);
 
-unsigned char recordingOngoing(void);
+unsigned char actionOngoing(void);
+
+void startReproducing(void);
+
+void setIndexToSend (unsigned char *newIndexToSend);
 
 #endif

@@ -1,5 +1,6 @@
 #include <xc.h>
 
+#include "tad_timer.h"
 #include "tad_teclado.h"
 
 #define ROW0 PORTBbits.RB0

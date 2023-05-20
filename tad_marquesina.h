@@ -1,11 +1,7 @@
 #ifndef _MARQUESINA_H
 #define _MARQUESINA_H
 
-#include <xc.h>
-
-#include "tad_timer.h"
-#include "tad_lcd.h"
-#include "tad_hora.h"
+#include "tad_eeprom.h"
 
 typedef struct RowState {
     unsigned char basePos;
@@ -24,9 +20,12 @@ void setNameCharCount(unsigned char charCount);
 void setGoobyeName (unsigned char index, char character);
 void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
 void setCharClock(unsigned char character, unsigned char index);
+void setRecordingOptions (Recording *newRecordingRow0, Recording *newRecordingRow1);
 unsigned char* getNewHora(void);
 void resetModifyClock(void);
 void changeWelcomeView(void);
 void resetStringSelector(void);
+void changeNoRecView(void);
+void setSingleRecordFlag (unsigned char c);
 
 #endif
