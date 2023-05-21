@@ -57,7 +57,7 @@ void resetModifyClock(void) {
     clock[4] = 'S';
 }
 
-void printPortString (unsigned char *menuStrHandle, unsigned char strLen, unsigned char row) {
+void printStrCharByChar (unsigned char *menuStrHandle, unsigned char strLen, unsigned char row) {
     if (TI_GetTics(rowStates[row].marquesinaTimer) >= 2) {
         
         if (rowStates[row].basePos >= strLen) {
@@ -193,47 +193,47 @@ void marquesinaMotor(void){
     if (TI_GetTics(timer1s) >= 1000) incrementaColumna();
     switch (stringSelector) {
         case 0:// PORT NAME
-            printPortString((unsigned char *) PortNameStr, sizeof(PortNameStr) - 1, 0);
+            printStrCharByChar((unsigned char *) PortNameStr, sizeof(PortNameStr) - 1, 0);
             break;
         case 1://OP 1
-            printPortString((unsigned char *) MenuOp1, sizeof(MenuOp1) - 1, 0);
-            printPortString((unsigned char *) MenuOp2, sizeof(MenuOp2) - 1, 1);
+            printStrCharByChar((unsigned char *) MenuOp1, sizeof(MenuOp1) - 1, 0);
+            printStrCharByChar((unsigned char *) MenuOp2, sizeof(MenuOp2) - 1, 1);
             break;
         case 2://OP 2
-            printPortString((unsigned char *) MenuOp2, sizeof(MenuOp2) - 1, 0);
-            printPortString((unsigned char *) MenuOp3, sizeof(MenuOp3) - 1, 1);
+            printStrCharByChar((unsigned char *) MenuOp2, sizeof(MenuOp2) - 1, 0);
+            printStrCharByChar((unsigned char *) MenuOp3, sizeof(MenuOp3) - 1, 1);
             break;
         case 3://OP 3
-            printPortString((unsigned char *) MenuOp3, sizeof(MenuOp3) - 1, 0);
-            printPortString((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 1);
+            printStrCharByChar((unsigned char *) MenuOp3, sizeof(MenuOp3) - 1, 0);
+            printStrCharByChar((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 1);
             break;
         case 4://OP 4,5
-            printPortString((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 0);
-            printPortString((unsigned char *) MenuOp5, sizeof(MenuOp5) - 1, 1);
+            printStrCharByChar((unsigned char *) MenuOp4, sizeof(MenuOp4) - 1, 0);
+            printStrCharByChar((unsigned char *) MenuOp5, sizeof(MenuOp5) - 1, 1);
             break;
         case 5://ENTER OP1
-            printPortString((unsigned char *) OP1, sizeof(OP1) - 1, 0);
+            printStrCharByChar((unsigned char *) OP1, sizeof(OP1) - 1, 0);
             break;
         case 6://ENTER OP2
             updateRecordingsStr();
-            printPortString(recordingStrRow0, recordingRow0->index_len + 5 + 3, 0);
+            printStrCharByChar(recordingStrRow0, recordingRow0->index_len + 5 + 3, 0);
             if (!singleRecordingFlag) {
-                printPortString(recordingStrRow1, recordingRow1->index_len + 5 + 3, 1);
+                printStrCharByChar(recordingStrRow1, recordingRow1->index_len + 5 + 3, 1);
             }
             break;
         case 7://ENTER OP3
-            printPortString((unsigned char *) OP3, sizeof(OP3) - 1, 0);
-            printPortString(clock, 5, 1);
+            printStrCharByChar((unsigned char *) OP3, sizeof(OP3) - 1, 0);
+            printStrCharByChar(clock, 5, 1);
             break;
         case 8://ENTER OP4
-            printPortString((unsigned char *) OP4, sizeof(OP4) - 1, 0);
-            printPortString(getHora(), 5, 1);
+            printStrCharByChar((unsigned char *) OP4, sizeof(OP4) - 1, 0);
+            printStrCharByChar(getHora(), 5, 1);
             break;
         case 9://ENTER OP5
-            printPortString(OP5, 9 + nameCharCount, 0);
+            printStrCharByChar(OP5, 9 + nameCharCount, 0);
             break;
         case 10:
-            printPortString((unsigned char *)NoRecordings, sizeof(NoRecordings) - 1, 0);
+            printStrCharByChar((unsigned char *)NoRecordings, sizeof(NoRecordings) - 1, 0);
             break;
     }
     

@@ -18,7 +18,7 @@ void setMenuOption (unsigned char index);
 void enterOption (signed char index);
 void setNameCharCount(unsigned char charCount);
 void setGoobyeName (unsigned char index, char character);
-void printPortString (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
+void printStrCharByChar (unsigned char *menuStrHandle, unsigned char size, unsigned char row);
 void setCharClock(unsigned char character, unsigned char index);
 void setRecordingOptions (Recording *newRecordingRow0, Recording *newRecordingRow1);
 unsigned char* getNewHora(void);
