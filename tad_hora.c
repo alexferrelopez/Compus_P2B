@@ -54,7 +54,7 @@ void horaMotor() {
                         if (clock[1] > '9') {
                             clock[1] = '0';
                             clock[0]++;
-                            if (clock[0] > '5') {
+                            if (clock[0] > '9') {
                                 // Si hemos contado 59:59(1 hora) reinciamos el contador.
                                 clock[0] = '0';
                                 clock[1] = '0';
